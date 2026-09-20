@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoninyDev — Applications Android</title>
+<meta name="description" content="BoninyDev, développeur indépendant d'applications Android : HandiCarte, DocSnap, TripTrack, VelX, VigiTemps.">
+<style>
+  :root {
+    --primary:#1A237E; --primary-dark:#0D1B7D; --accent:#00897B;
+    --bg:#F5F5F5; --surface:#FFFFFF; --text:#212121; --muted:#5B6472; --border:#E0E0E0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#121212; --surface:#1E1E1E; --text:#F5F5F5; --muted:#BDBDBD; --border:#333; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.65}
+  header{background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;
+         padding:48px 20px;text-align:center}
+  header h1{margin:0;font-size:2rem;letter-spacing:.02em}
+  header p{margin:10px 0 0;color:rgba(255,255,255,.85)}
+  .container{max-width:780px;margin:0 auto;padding:32px 20px 64px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+        padding:20px 24px;margin-bottom:16px}
+  .card h2{margin:0 0 10px;font-size:1.15rem;color:var(--primary)}
+  @media (prefers-color-scheme: dark){.card h2{color:#9FA8DA}}
+  .card p{margin:6px 0;color:var(--muted)}
+  a{color:var(--accent)}
+  footer{text-align:center;padding:0 20px 48px;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>BoninyDev</h1>
+  <p>Développeur indépendant d'applications Android — France</p>
+</header>
+<div class="container">
+
+  <div class="card">
+    <h2>HandiCarte</h2>
+    <p>Rangez vos cartes et justificatifs liés au handicap sur votre téléphone, et retrouvez-les en un geste. Fonctionne hors ligne, données conservées sur l'appareil.</p>
+    <p><a href="https://boninytel-dot.github.io/HandiCarte/">Politique de confidentialité et CGU</a></p>
+  </div>
+
+  <div class="card">
+    <h2>DocSnap</h2>
+    <p>Transformez vos photos de documents en PDF, avec un rendu proche d'un scanner.</p>
+    <p><a href="https://boninytel-dot.github.io/DocSnap/">Politique de confidentialité</a></p>
+  </div>
+
+  <div class="card">
+    <h2>TripTrack</h2>
+    <p><a href="https://boninytel-dot.github.io/TripTrack/">Politique de confidentialité</a></p>
+  </div>
+
+  <div class="card">
+    <h2>VelX</h2>
+    <p><a href="https://boninytel-dot.github.io/VelX/">Politique de confidentialité</a></p>
+  </div>
+
+  <div class="card">
+    <h2>Contact</h2>
+    <p>Une question, un signalement de bug, une demande relative à vos données :
+       <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
+  </div>
+
+</div>
+<footer>
+  <p>© 2026 BoninyDev</p>
+</footer>
+</body>
+</html>
