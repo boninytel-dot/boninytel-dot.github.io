@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Score Arc Sarbacane — Politique de confidentialité</title>
+<meta name="description" content="Politique de confidentialité de l'application Score Arc Sarbacane (SAS) de BoninyDev.">
+<style>
+:root{
+  --primary:#10161F; --primary-dark:#070B11; --accent:#F2B705;
+  --bg:#F5F6F8; --surface:#FFFFFF; --text:#1A1F26; --secondary-text:#5B6472; --border:#E0E3E8;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#101419; --surface:#1A1F26; --text:#F2F5F8; --secondary-text:#9AA7B4; --border:#2B323B; }
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.65}
+header{background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;
+  padding:34px 20px 44px;text-align:center}
+header .mark{width:84px;height:84px;margin:0 auto 14px;display:block}
+header h1{margin:0;font-size:1.7rem;letter-spacing:.02em}
+header p{margin:8px 0 0;color:rgba(255,255,255,.82);font-size:.95rem}
+.container{max-width:780px;margin:0 auto;padding:8px 20px 64px}
+
+/* Selecteur de langue sans JavaScript, pilote par des radios masquees. */
+input[name="lang"]{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.lang-switch{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+  margin:-24px auto 28px;max-width:780px;padding:0 20px}
+.lang-switch label{flex:0 1 auto;min-width:104px;text-align:center;padding:10px 16px;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;
+  font-weight:600;color:var(--secondary-text);box-shadow:0 1px 2px rgba(0,0,0,.05);
+  transition:background .15s,color .15s,border-color .15s}
+.lang-switch label:hover{border-color:var(--accent)}
+#l-fr:checked ~ .lang-switch label[for="l-fr"],
+#l-en:checked ~ .lang-switch label[for="l-en"],
+#l-de:checked ~ .lang-switch label[for="l-de"],
+#l-es:checked ~ .lang-switch label[for="l-es"],
+#l-ar:checked ~ .lang-switch label[for="l-ar"]{background:var(--accent);color:#1A1300;border-color:transparent}
+.lang{display:none}
+#l-fr:checked ~ .container .lang.fr,
+#l-en:checked ~ .container .lang.en,
+#l-de:checked ~ .container .lang.de,
+#l-es:checked ~ .container .lang.es,
+#l-ar:checked ~ .container .lang.ar{display:block}
+.lang.ar{direction:rtl;text-align:right}
+
+section{background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:20px 22px;margin:0 0 16px}
+h2{margin:0 0 10px;font-size:1.12rem;color:var(--text)}
+p,li{color:var(--secondary-text);margin:0 0 10px}
+ul{margin:0 0 4px;padding-inline-start:20px}
+strong{color:var(--text)}
+a{color:#0B6FB8}
+@media (prefers-color-scheme: dark){ a{color:#5BB7F0} }
+.maj{text-align:center;color:var(--secondary-text);font-size:.9rem;margin:22px 0 0}
+footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 20px 40px}
+</style>
+</head>
+<body>
+
+<input type="radio" name="lang" id="l-fr" checked>
+<input type="radio" name="lang" id="l-en">
+<input type="radio" name="lang" id="l-de">
+<input type="radio" name="lang" id="l-es">
+<input type="radio" name="lang" id="l-ar">
+
+<header>
+  <svg class="mark" viewBox="0 0 320 320" aria-hidden="true"><g transform="translate(160,160)">
+    <circle r="128" fill="#F5F7FA"/><circle r="128" fill="none" stroke="#9AA7B4" stroke-width="6"/>
+    <circle r="91" fill="#E4473C"/><circle r="48" fill="#F2B705"/>
+    <g transform="rotate(-45)">
+      <polygon points="-166,4 -110,4 -157,33" fill="#F2B705"/>
+      <polygon points="-166,-4 -110,-4 -157,-33" fill="#F2B705"/>
+      <line x1="-168" y1="0" x2="-28" y2="0" stroke="#D8DEE6" stroke-width="34" stroke-linecap="round"/>
+      <line x1="-162" y1="0" x2="-28" y2="0" stroke="#10161F" stroke-width="19" stroke-linecap="round"/>
+      <polygon points="4,0 -34,21 -34,-21" fill="#D8DEE6"/>
+      <polygon points="-4,0 -30,13 -30,-13" fill="#10161F"/>
+    </g></g></svg>
+  <h1>Score Arc Sarbacane</h1>
+  <p>Politique de confidentialité — BoninyDev</p>
+</header>
+
+<div class="lang-switch">
+  <label for="l-fr">Français</label>
+  <label for="l-en">English</label>
+  <label for="l-de">Deutsch</label>
+  <label for="l-es">Español</label>
+  <label for="l-ar">العربية</label>
+</div>
+
+<div class="container">
+
+<!-- ================= FRANÇAIS ================= -->
+<div class="lang fr">
+  <section>
+    <h2>En deux phrases</h2>
+    <p><strong>Score Arc Sarbacane ne collecte aucune donnée personnelle et n'envoie rien à BoninyDev.</strong>
+    Toutes vos séances, votre matériel et vos réglages restent sur votre téléphone.</p>
+    <p>Seules deux exceptions existent, et elles viennent de Google : la régie publicitaire
+    AdMob et, si vous achetez la version sans publicité, Google Play.</p>
+  </section>
+
+  <section>
+    <h2>Ce que l'application enregistre</h2>
+    <p>Vos séances de tir, vos scores, la position de vos impacts, votre matériel, vos blasons
+    personnalisés et vos réglages sont enregistrés <strong>uniquement dans la mémoire locale de
+    l'application</strong>, sur votre appareil. Il n'y a ni compte, ni inscription, ni serveur.</p>
+    <p>Désinstaller l'application efface définitivement ces données. Le menu
+    Réglages → Données → Sauvegarder vous permet d'en exporter une copie dans un fichier qui
+    vous appartient, que nous ne recevons jamais.</p>
+  </section>
+
+  <section>
+    <h2>La caméra</h2>
+    <p>L'application demande l'accès à la caméra <strong>uniquement</strong> lorsque vous ouvrez
+    la lecture des flèches à la caméra. L'image est analysée sur l'appareil, en direct, pour
+    repérer vos flèches. <strong>Aucune photo n'est enregistrée ni transmise</strong> : elle
+    disparaît dès que vous quittez l'écran.</p>
+    <p>Refuser cette autorisation n'empêche pas d'utiliser l'application : la saisie au doigt et
+    au clavier restent disponibles.</p>
+  </section>
+
+  <section>
+    <h2>Publicité (Google AdMob)</h2>
+    <p>La version gratuite affiche une annonce avant l'écran des statistiques, au plus une fois
+    par heure. Ces annonces sont fournies par <strong>Google AdMob</strong>, qui peut collecter
+    et traiter des données depuis votre appareil, notamment l'identifiant publicitaire, l'adresse
+    IP et des informations techniques, pour sélectionner et mesurer les annonces.</p>
+    <p>Si vous êtes dans l'Espace économique européen, au Royaume-Uni ou en Suisse, un formulaire
+    de consentement Google vous est présenté avant toute annonce personnalisée. Vous pouvez
+    modifier votre choix à tout moment.</p>
+    <p>Détail du traitement par Google :
+    <a href="https://policies.google.com/technologies/partner-sites">Comment Google utilise les
+    données</a> et <a href="https://policies.google.com/privacy">Règles de confidentialité de
+    Google</a>.</p>
+  </section>
+
+  <section>
+    <h2>Achat sans publicité</h2>
+    <p>L'achat unique qui retire les publicités est traité par <strong>Google Play</strong>.
+    BoninyDev ne voit, ne reçoit et ne conserve aucune donnée de paiement. Nous savons seulement,
+    sur votre appareil, si l'achat a été effectué.</p>
+    <p>Les codes cadeau sont vérifiés hors ligne, sur l'appareil, et n'envoient rien.</p>
+  </section>
+
+  <section>
+    <h2>Import depuis MyTargets</h2>
+    <p>Si vous importez une sauvegarde de l'application MyTargets, le fichier est lu
+    <strong>entièrement sur votre téléphone</strong>. Rien n'est téléversé.</p>
+  </section>
+
+  <section>
+    <h2>Enfants</h2>
+    <p>L'application n'est pas destinée aux enfants de moins de 13 ans et ne leur demande aucune
+    information.</p>
+  </section>
+
+  <section>
+    <h2>Vos droits</h2>
+    <p>Comme BoninyDev ne détient aucune donnée vous concernant, il n'y a rien à consulter,
+    corriger ou supprimer de notre côté : effacer les données de l'application ou la désinstaller
+    suffit. Pour les données traitées par Google AdMob, adressez-vous à Google au moyen des liens
+    ci-dessus.</p>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p>Une question sur cette politique : <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
+  </section>
+  <p class="maj">Dernière mise à jour : 9 novembre 2026</p>
+</div>
+
+<!-- ================= ENGLISH ================= -->
+<div class="lang en">
+  <section>
+    <h2>In two sentences</h2>
+    <p><strong>Score Arc Sarbacane collects no personal data and sends nothing to BoninyDev.</strong>
+    All your sessions, equipment and settings stay on your phone.</p>
+    <p>There are only two exceptions, and both come from Google: the AdMob advertising network and,
+    if you buy the ad-free version, Google Play.</p>
+  </section>
+
+  <section>
+    <h2>What the app stores</h2>
+    <p>Your shooting sessions, scores, hit positions, equipment, custom target faces and settings
+    are stored <strong>only in the app's local storage</strong>, on your device. There is no
+    account, no sign-up and no server.</p>
+    <p>Uninstalling the app erases this data for good. Settings → Data → Back up lets you export a
+    copy to a file that belongs to you and that we never receive.</p>
+  </section>
+
+  <section>
+    <h2>The camera</h2>
+    <p>The app asks for camera access <strong>only</strong> when you open arrow detection. The
+    image is analysed on the device, live, to locate your arrows. <strong>No photo is stored or
+    transmitted</strong>: it is gone as soon as you leave the screen.</p>
+    <p>Refusing this permission does not prevent you from using the app: finger and keypad entry
+    remain available.</p>
+  </section>
+
+  <section>
+    <h2>Advertising (Google AdMob)</h2>
+    <p>The free version shows an advert before the statistics screen, at most once an hour. These
+    adverts are served by <strong>Google AdMob</strong>, which may collect and process data from
+    your device — including the advertising identifier, IP address and technical information — to
+    select and measure adverts.</p>
+    <p>If you are in the European Economic Area, the United Kingdom or Switzerland, a Google
+    consent form is shown before any personalised advert. You can change your choice at any time.</p>
+    <p>Details of Google's processing:
+    <a href="https://policies.google.com/technologies/partner-sites">How Google uses data</a> and
+    <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.</p>
+  </section>
+
+  <section>
+    <h2>Ad-free purchase</h2>
+    <p>The one-off purchase that removes adverts is handled by <strong>Google Play</strong>.
+    BoninyDev never sees, receives or keeps any payment data. We only know, on your device,
+    whether the purchase was made.</p>
+    <p>Gift codes are verified offline, on the device, and send nothing.</p>
+  </section>
+
+  <section>
+    <h2>Import from MyTargets</h2>
+    <p>If you import a MyTargets backup, the file is read <strong>entirely on your phone</strong>.
+    Nothing is uploaded.</p>
+  </section>
+
+  <section>
+    <h2>Children</h2>
+    <p>The app is not directed at children under 13 and asks them for no information.</p>
+  </section>
+
+  <section>
+    <h2>Your rights</h2>
+    <p>Since BoninyDev holds no data about you, there is nothing on our side to access, correct or
+    delete: clearing the app's data or uninstalling it is enough. For data processed by Google
+    AdMob, please contact Google through the links above.</p>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p>Questions about this policy: <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
+  </section>
+  <p class="maj">Last updated: 9 November 2026</p>
+</div>
+
+<!-- ================= DEUTSCH ================= -->
+<div class="lang de">
+  <section>
+    <h2>In zwei Sätzen</h2>
+    <p><strong>Score Arc Sarbacane erhebt keine personenbezogenen Daten und sendet nichts an
+    BoninyDev.</strong> Alle Sitzungen, dein Material und deine Einstellungen bleiben auf deinem
+    Telefon.</p>
+    <p>Es gibt nur zwei Ausnahmen, und beide kommen von Google: das Werbenetzwerk AdMob und, falls
+    du die werbefreie Version kaufst, Google Play.</p>
+  </section>
+
+  <section>
+    <h2>Was die App speichert</h2>
+    <p>Deine Schießsitzungen, Ergebnisse, Trefferlagen, Material, eigene Auflagen und
+    Einstellungen werden <strong>ausschließlich im lokalen Speicher der App</strong> auf deinem
+    Gerät abgelegt. Es gibt kein Konto, keine Anmeldung und keinen Server.</p>
+    <p>Das Deinstallieren löscht diese Daten endgültig. Über Einstellungen → Daten → Sichern
+    kannst du eine Kopie in eine Datei exportieren, die dir gehört und die wir nie erhalten.</p>
+  </section>
+
+  <section>
+    <h2>Die Kamera</h2>
+    <p>Die App fragt den Kamerazugriff <strong>nur</strong> ab, wenn du die Pfeilerkennung
+    öffnest. Das Bild wird live auf dem Gerät ausgewertet, um deine Pfeile zu finden.
+    <strong>Es wird kein Foto gespeichert oder übertragen</strong>; es ist weg, sobald du den
+    Bildschirm verlässt.</p>
+    <p>Eine Ablehnung hindert dich nicht an der Nutzung: Eingabe mit dem Finger und über die
+    Tastatur bleiben verfügbar.</p>
+  </section>
+
+  <section>
+    <h2>Werbung (Google AdMob)</h2>
+    <p>Die kostenlose Version zeigt vor dem Statistikbildschirm höchstens einmal pro Stunde eine
+    Anzeige. Diese Anzeigen liefert <strong>Google AdMob</strong>, das Daten von deinem Gerät
+    erheben und verarbeiten kann — unter anderem die Werbe-ID, die IP-Adresse und technische
+    Angaben — um Anzeigen auszuwählen und zu messen.</p>
+    <p>Im Europäischen Wirtschaftsraum, im Vereinigten Königreich und in der Schweiz wird vor jeder
+    personalisierten Anzeige ein Einwilligungsformular von Google angezeigt. Du kannst deine Wahl
+    jederzeit ändern.</p>
+    <p>Einzelheiten zur Verarbeitung durch Google:
+    <a href="https://policies.google.com/technologies/partner-sites">Wie Google Daten verwendet</a>
+    und <a href="https://policies.google.com/privacy">Datenschutzerklärung von Google</a>.</p>
+  </section>
+
+  <section>
+    <h2>Werbefreier Kauf</h2>
+    <p>Den einmaligen Kauf wickelt <strong>Google Play</strong> ab. BoninyDev sieht, erhält und
+    speichert keine Zahlungsdaten. Wir wissen nur auf deinem Gerät, ob der Kauf erfolgt ist.</p>
+    <p>Geschenkcodes werden offline auf dem Gerät geprüft und senden nichts.</p>
+  </section>
+
+  <section>
+    <h2>Import aus MyTargets</h2>
+    <p>Eine MyTargets-Sicherung wird <strong>vollständig auf deinem Telefon</strong> gelesen. Es
+    wird nichts hochgeladen.</p>
+  </section>
+
+  <section>
+    <h2>Kinder</h2>
+    <p>Die App richtet sich nicht an Kinder unter 13 Jahren und fragt sie nach nichts.</p>
+  </section>
+
+  <section>
+    <h2>Deine Rechte</h2>
+    <p>Da BoninyDev keine Daten über dich hat, gibt es bei uns nichts einzusehen, zu berichtigen
+    oder zu löschen: die App-Daten zu löschen oder die App zu deinstallieren genügt. Für die von
+    Google AdMob verarbeiteten Daten wende dich über die obigen Links an Google.</p>
+  </section>
+
+  <section>
+    <h2>Kontakt</h2>
+    <p>Fragen zu dieser Erklärung: <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
+  </section>
+  <p class="maj">Letzte Aktualisierung: 9. November 2026</p>
+</div>
+
+<!-- ================= ESPAÑOL ================= -->
+<div class="lang es">
+  <section>
+    <h2>En dos frases</h2>
+    <p><strong>Score Arc Sarbacane no recoge ningún dato personal y no envía nada a
+    BoninyDev.</strong> Todas tus sesiones, tu material y tus ajustes se quedan en tu teléfono.</p>
+    <p>Solo hay dos excepciones, y ambas vienen de Google: la red publicitaria AdMob y, si compras
+    la versión sin publicidad, Google Play.</p>
+  </section>
+
+  <section>
+    <h2>Qué guarda la aplicación</h2>
+    <p>Tus sesiones de tiro, puntuaciones, posiciones de los impactos, material, dianas
+    personalizadas y ajustes se guardan <strong>únicamente en el almacenamiento local de la
+    aplicación</strong>, en tu dispositivo. No hay cuenta, ni registro, ni servidor.</p>
+    <p>Desinstalar la aplicación borra estos datos definitivamente. En Ajustes → Datos → Copia de
+    seguridad puedes exportar una copia a un archivo que es tuyo y que nunca recibimos.</p>
+  </section>
+
+  <section>
+    <h2>La cámara</h2>
+    <p>La aplicación pide acceso a la cámara <strong>solo</strong> cuando abres la detección de
+    flechas. La imagen se analiza en el dispositivo, en directo, para localizar tus flechas.
+    <strong>No se guarda ni se transmite ninguna foto</strong>: desaparece en cuanto sales de la
+    pantalla.</p>
+    <p>Rechazar este permiso no impide usar la aplicación: la entrada con el dedo y con el teclado
+    siguen disponibles.</p>
+  </section>
+
+  <section>
+    <h2>Publicidad (Google AdMob)</h2>
+    <p>La versión gratuita muestra un anuncio antes de la pantalla de estadísticas, como máximo
+    una vez por hora. Estos anuncios los sirve <strong>Google AdMob</strong>, que puede recoger y
+    tratar datos de tu dispositivo —entre ellos el identificador de publicidad, la dirección IP e
+    información técnica— para seleccionar y medir los anuncios.</p>
+    <p>Si te encuentras en el Espacio Económico Europeo, el Reino Unido o Suiza, se te muestra un
+    formulario de consentimiento de Google antes de cualquier anuncio personalizado. Puedes cambiar
+    tu elección en cualquier momento.</p>
+    <p>Detalles del tratamiento por parte de Google:
+    <a href="https://policies.google.com/technologies/partner-sites">Cómo usa Google los datos</a>
+    y <a href="https://policies.google.com/privacy">Política de privacidad de Google</a>.</p>
+  </section>
+
+  <section>
+    <h2>Compra sin publicidad</h2>
+    <p>La compra única que quita la publicidad la gestiona <strong>Google Play</strong>. BoninyDev
+    no ve, no recibe ni conserva ningún dato de pago. Solo sabemos, en tu dispositivo, si la compra
+    se ha realizado.</p>
+    <p>Los códigos de regalo se verifican sin conexión, en el dispositivo, y no envían nada.</p>
+  </section>
+
+  <section>
+    <h2>Importación desde MyTargets</h2>
+    <p>Si importas una copia de seguridad de MyTargets, el archivo se lee <strong>por completo en
+    tu teléfono</strong>. No se sube nada.</p>
+  </section>
+
+  <section>
+    <h2>Menores</h2>
+    <p>La aplicación no está dirigida a menores de 13 años y no les pide ninguna información.</p>
+  </section>
+
+  <section>
+    <h2>Tus derechos</h2>
+    <p>Como BoninyDev no posee ningún dato sobre ti, no hay nada que consultar, corregir o
+    suprimir por nuestra parte: basta con borrar los datos de la aplicación o desinstalarla. Para
+    los datos tratados por Google AdMob, dirígete a Google mediante los enlaces anteriores.</p>
+  </section>
+
+  <section>
+    <h2>Contacto</h2>
+    <p>Dudas sobre esta política: <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
+  </section>
+  <p class="maj">Última actualización: 9 de noviembre de 2026</p>
+</div>
+
+<!-- ================= العربية ================= -->
+<div class="lang ar" dir="rtl">
+  <section>
+    <h2>في جملتين</h2>
+    <p><strong>لا يجمع تطبيق Score Arc Sarbacane أي بيانات شخصية ولا يرسل شيئاً إلى
+    BoninyDev.</strong> تبقى كل جلساتك وعتادك وإعداداتك على هاتفك.</p>
+    <p>هناك استثناءان فقط، وكلاهما من Google: شبكة إعلانات AdMob، و Google Play إذا اشتريت
+    النسخة بلا إعلانات.</p>
+  </section>
+
+  <section>
+    <h2>ما الذي يحفظه التطبيق</h2>
+    <p>تُحفظ جلسات الرمي والنتائج ومواضع الإصابات والعتاد والأهداف المخصّصة والإعدادات
+    <strong>في الذاكرة المحلية للتطبيق فقط</strong>، على جهازك. لا يوجد حساب ولا تسجيل ولا خادم.</p>
+    <p>إلغاء تثبيت التطبيق يمحو هذه البيانات نهائياً. ومن الإعدادات ← البيانات ← نسخ احتياطي يمكنك
+    تصدير نسخة إلى ملف يخصّك ولا نستلمه أبداً.</p>
+  </section>
+
+  <section>
+    <h2>الكاميرا</h2>
+    <p>يطلب التطبيق إذن الكاميرا <strong>فقط</strong> عند فتح كشف السهام. تُحلَّل الصورة على
+    الجهاز مباشرةً لتحديد مواضع سهامك. <strong>لا تُحفظ أي صورة ولا تُرسل</strong>؛ تختفي بمجرد
+    مغادرتك الشاشة.</p>
+    <p>رفض هذا الإذن لا يمنعك من استعمال التطبيق: يبقى الإدخال بالإصبع وبلوحة المفاتيح متاحاً.</p>
+  </section>
+
+  <section>
+    <h2>الإعلانات (Google AdMob)</h2>
+    <p>تعرض النسخة المجانية إعلاناً قبل شاشة الإحصاءات، مرة واحدة كل ساعة على الأكثر. تقدّم هذه
+    الإعلانات <strong>Google AdMob</strong>، وقد تجمع وتعالج بيانات من جهازك — منها معرّف
+    الإعلانات وعنوان IP ومعلومات تقنية — لاختيار الإعلانات وقياسها.</p>
+    <p>إذا كنت في المنطقة الاقتصادية الأوروبية أو المملكة المتحدة أو سويسرا، يُعرض عليك نموذج
+    موافقة من Google قبل أي إعلان مخصّص. ويمكنك تغيير اختيارك في أي وقت.</p>
+    <p>تفاصيل معالجة Google:
+    <a href="https://policies.google.com/technologies/partner-sites">كيف تستخدم Google البيانات</a>
+    و<a href="https://policies.google.com/privacy">سياسة خصوصية Google</a>.</p>
+  </section>
+
+  <section>
+    <h2>الشراء بلا إعلانات</h2>
+    <p>تتولى <strong>Google Play</strong> عملية الشراء الواحدة التي تزيل الإعلانات. لا ترى
+    BoninyDev أي بيانات دفع ولا تستلمها ولا تحتفظ بها. نعرف فقط، على جهازك، ما إذا تمّ الشراء.</p>
+    <p>تُتحقَّق رموز الهدية دون اتصال، على الجهاز، ولا ترسل شيئاً.</p>
+  </section>
+
+  <section>
+    <h2>الاستيراد من MyTargets</h2>
+    <p>إذا استوردت نسخة احتياطية من MyTargets، يُقرأ الملف <strong>بالكامل على هاتفك</strong>. لا
+    يُرفع أي شيء.</p>
+  </section>
+
+  <section>
+    <h2>الأطفال</h2>
+    <p>التطبيق غير موجّه للأطفال دون 13 سنة ولا يطلب منهم أي معلومات.</p>
+  </section>
+
+  <section>
+    <h2>حقوقك</h2>
+    <p>بما أن BoninyDev لا تحتفظ بأي بيانات عنك، فلا شيء لدينا للاطلاع عليه أو تصحيحه أو حذفه:
+    يكفي مسح بيانات التطبيق أو إلغاء تثبيته. أما البيانات التي تعالجها Google AdMob فتوجّه بشأنها
+    إلى Google عبر الروابط أعلاه.</p>
+  </section>
+
+  <section>
+    <h2>التواصل</h2>
+    <p>أسئلة حول هذه السياسة: <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
+  </section>
+  <p class="maj">آخر تحديث: 9 نوفمبر 2026</p>
+</div>
+
+</div>
+
+<footer>BoninyDev — <a href="https://boninytel-dot.github.io/">boninytel-dot.github.io</a></footer>
+</body>
+</html>
