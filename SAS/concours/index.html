@@ -147,6 +147,7 @@ function distFR(d){ return String(d).replace(".", ","); }
    Meme encodage que l'application : Firestore veut des valeurs typees. */
 function fbVal(v){
   if(v === null || v === undefined) return {nullValue:null};
+  if(v instanceof Date) return {timestampValue: v.toISOString()};
   if(typeof v === "boolean") return {booleanValue:v};
   if(typeof v === "number")
     return (Math.floor(v) === v && Math.abs(v) < 9e15)
@@ -179,6 +180,15 @@ function fbChamps(o){
   var f = {};
   Object.keys(o).forEach(function(k){ f[k] = fbVal(o[k]); });
   return f;
+}
+
+/* Date de peremption : le serveur supprime de lui-meme tout document
+   depasse. Meme duree que dans l'application. */
+var TTL_MOIS = 18;
+function peremption(){
+  var d = new Date();
+  d.setMonth(d.getMonth() + TTL_MOIS);
+  return d;
 }
 
 var Nuage = {
@@ -390,13 +400,15 @@ function ecranInscription(code, c){
     var fiche = {
       prenom: $("#pr").value.trim(), nom: $("#no").value.trim(),
       licence: $("#li").value.trim(), club: $("#cb").value.trim(),
-      categorie: $("#ca") ? $("#ca").value : "", inscrit: Date.now()
+      categorie: $("#ca") ? $("#ca").value : "", inscrit: Date.now(),
+      expire: peremption()
     };
     if(!fiche.prenom || !fiche.nom){ toast("Prenom et nom sont demandes"); return; }
     var b = $("#ok"); b.disabled = true; b.textContent = "Inscription…";
     var pub = {
       affichage: fiche.prenom + " " + fiche.nom.slice(0,1).toUpperCase() + ".",
-      categorie: fiche.categorie, total:0, volees:0, nb10:0, nbX:0, modifie:Date.now()
+      categorie: fiche.categorie, total:0, volees:0, nb10:0, nbX:0,
+      modifie:Date.now(), expire: peremption()
     };
     Nuage.connecter().then(function(uid){
       return Promise.all([
@@ -521,7 +533,7 @@ function envoyer(code, s){
     affichage: s.prenom + " " + s.nom.slice(0,1).toUpperCase() + ".",
     categorie: s.categorie || "",
     total: t.total, volees: n ? Math.ceil(t.tire / n) : 0,
-    nb10: t.dix, nbX: t.x, modifie: Date.now()
+    nb10: t.dix, nbX: t.x, modifie: Date.now(), expire: peremption()
   };
   return Nuage.connecter().then(function(uid){
     return Nuage.ecrire("/concours/" + code + "/classement/" + uid, pub);
