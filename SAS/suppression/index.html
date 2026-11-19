@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Score Arc Sarbacane — Supprimer vos données</title>
+<meta name="description" content="Comment demander la suppression de vos données dans l'application Score Arc Sarbacane (SAS) de BoninyDev.">
+<style>
+:root{
+  --primary:#10161F; --primary-dark:#070B11; --accent:#F2B705;
+  --bg:#F5F6F8; --surface:#FFFFFF; --text:#1A1F26; --secondary-text:#5B6472; --border:#E0E3E8;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#101419; --surface:#1A1F26; --text:#F2F5F8; --secondary-text:#9AA7B4; --border:#2B323B; }
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.65}
+header{background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;
+  padding:34px 20px 44px;text-align:center}
+header .mark{width:84px;height:84px;margin:0 auto 14px;display:block}
+header h1{margin:0;font-size:1.7rem;letter-spacing:.02em}
+header p{margin:8px 0 0;color:rgba(255,255,255,.82);font-size:.95rem}
+.container{max-width:780px;margin:0 auto;padding:8px 20px 64px}
+section{background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:20px 24px;margin:18px 0}
+h2{font-size:1.15rem;margin:0 0 10px}
+h3{font-size:1rem;margin:18px 0 6px}
+ul{padding-left:20px}
+a{color:#0B63CE}
+@media (prefers-color-scheme: dark){ a{color:#79B8FF} }
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.95rem}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--border);vertical-align:top}
+th{color:var(--secondary-text);font-weight:600}
+.maj{color:var(--secondary-text);font-size:.9rem;text-align:center}
+.app{font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <svg class="mark" viewBox="0 0 320 320" aria-hidden="true"><g transform="translate(160,160)">
+    <circle r="128" fill="#F5F7FA"/><circle r="128" fill="none" stroke="#9AA7B4" stroke-width="6"/>
+    <circle r="91" fill="#E4473C"/><circle r="48" fill="#F2B705"/>
+    <g transform="rotate(-45)">
+      <polygon points="-166,4 -110,4 -157,33" fill="#F2B705"/>
+      <polygon points="-166,-4 -110,-4 -157,-33" fill="#F2B705"/>
+      <line x1="-168" y1="0" x2="-28" y2="0" stroke="#D8DEE6" stroke-width="34" stroke-linecap="round"/>
+      <line x1="-162" y1="0" x2="-28" y2="0" stroke="#10161F" stroke-width="19" stroke-linecap="round"/>
+      <polygon points="4,0 -34,21 -34,-21" fill="#D8DEE6"/>
+      <polygon points="-4,0 -30,13 -30,-13" fill="#10161F"/>
+    </g></g></svg>
+  <h1>Supprimer vos données</h1>
+  <p>Score Arc Sarbacane (com.boninydev.sas) — BoninyDev</p>
+</header>
+
+<div class="container">
+
+<section>
+  <h2>En une phrase</h2>
+  <p>L'application <span class="app">Score Arc Sarbacane</span>, éditée par
+  <span class="app">BoninyDev</span>, garde tout sur votre téléphone, <strong>sauf si vous
+  rejoignez un concours</strong>. Dans ce seul cas, vos nom, prénom, numéro de licence, club,
+  catégorie et scores sont envoyés à un serveur, et cette page explique comment les faire
+  effacer.</p>
+</section>
+
+<section>
+  <h2>1. Les données qui restent sur votre téléphone</h2>
+  <p>Séances, scores, position des impacts, matériel, blasons personnalisés, réglages,
+  profil : tout cela est enregistré <strong>uniquement dans la mémoire locale de
+  l'application</strong>. BoninyDev ne les reçoit jamais.</p>
+  <h3>Pour les supprimer</h3>
+  <ul>
+    <li>Dans l'application : <strong>Réglages → Données → Tout effacer</strong>.</li>
+    <li>Ou dans Android : <strong>Paramètres → Applications → Score Arc Sarbacane →
+    Stockage → Effacer les données</strong>.</li>
+    <li>Ou désinstallez l'application : la suppression est alors définitive et immédiate.</li>
+  </ul>
+  <p>Aucune demande ne nous est nécessaire : vous n'avez personne à contacter.</p>
+</section>
+
+<section>
+  <h2>2. Les données envoyées au serveur (mode concours uniquement)</h2>
+  <p>Si — et seulement si — vous <strong>créez un concours ou en rejoignez un</strong>, les
+  données suivantes sont enregistrées chez Google Firebase Firestore, sur des serveurs situés
+  en France (région <em>europe-west9</em>, Paris) :</p>
+  <table>
+    <tr><th>Donnée</th><th>Qui la voit</th></tr>
+    <tr><td>Prénom, nom, numéro de licence, club, catégorie</td>
+        <td>vous et l'organisateur du concours</td></tr>
+    <tr><td>Prénom, initiale du nom, catégorie, total</td>
+        <td>les participants au concours et toute personne qui a le code</td></tr>
+    <tr><td>Identifiant anonyme de l'appareil (ni e-mail, ni mot de passe, ni nom)</td>
+        <td>le serveur, pour vérifier que c'est bien vous qui modifiez votre feuille</td></tr>
+  </table>
+
+  <h3>Pour les supprimer — trois chemins</h3>
+  <ul>
+    <li><strong>Vous êtes organisateur</strong> : ouvrez le concours dans l'application
+    (onglet Séances → votre concours) et touchez <strong>Supprimer</strong>. Le concours,
+    toutes les fiches et tous les scores sont effacés du serveur immédiatement et
+    définitivement.</li>
+    <li><strong>Vous êtes participant</strong> : demandez à l'organisateur du concours de
+    supprimer votre inscription, ou le concours entier.</li>
+    <li><strong>Dans tous les cas</strong> : écrivez à
+    <a href="mailto:contact@boninydev.com">contact@boninydev.com</a> en indiquant le
+    <strong>code du concours</strong> (six caractères, affiché par l'organisateur) et votre
+    <strong>nom</strong>. Nous supprimons votre inscription et vos scores
+    <strong>sous 30 jours</strong>, et nous vous répondons pour le confirmer. Aucune pièce
+    d'identité ne vous est demandée.</li>
+  </ul>
+
+  <h3>Ce qui est supprimé, ce qui est conservé</h3>
+  <p><strong>Supprimé</strong> : la totalité de ce qui est listé ci-dessus — prénom, nom,
+  licence, club, catégorie, scores, identifiant anonyme. Il n'en reste aucune copie.</p>
+  <p><strong>Conservé</strong> : rien vous concernant. BoninyDev ne tient ni sauvegarde
+  nominative, ni archive, ni statistique dérivée de ces données.</p>
+
+  <h3>Suppression sans demande de votre part</h3>
+  <p>L'application supprime d'elle-même les concours clos depuis plus de trois mois dont son
+  utilisateur est l'organisateur, au démarrage. Cet effacement a donc besoin que
+  l'organisateur rouvre l'application au moins une fois ; si ce n'est pas le cas, le courriel
+  ci-dessus reste la voie sûre.</p>
+</section>
+
+<section>
+  <h2>3. La page concours pour iPhone</h2>
+  <p>La page <a href="../concours/">boninytel-dot.github.io/SAS/concours/</a> suit exactement
+  les mêmes règles. Votre inscription y est gardée dans la mémoire locale de votre
+  navigateur : videz les données du site, ou utilisez les trois chemins ci-dessus pour ce qui
+  est sur le serveur.</p>
+</section>
+
+<section>
+  <h2>Contact</h2>
+  <p><a href="mailto:contact@boninydev.com">contact@boninydev.com</a> —
+  <a href="../">politique de confidentialité complète</a>.</p>
+</section>
+
+<hr style="border:0;border-top:1px solid var(--border);margin:28px 0">
+
+<section lang="en">
+  <h2>In English — How to delete your data</h2>
+  <p><span class="app">Score Arc Sarbacane</span> (com.boninydev.sas), by
+  <span class="app">BoninyDev</span>, keeps everything on your phone <strong>unless you join a
+  competition</strong>.</p>
+  <h3>Data on your phone</h3>
+  <p>Sessions, scores, equipment, settings and profile live only in the app's local storage.
+  Delete them with <strong>Réglages → Données → Tout effacer</strong> (Settings → Data → Erase everything) in the app, with
+  <strong>Android Settings → Apps → Score Arc Sarbacane → Storage → Clear data</strong>, or by
+  uninstalling the app. No request to us is needed.</p>
+  <h3>Data on the server (competition mode only)</h3>
+  <p>First name, surname, licence number, club, category, scores and an anonymous device
+  identifier, stored with Google Firebase Firestore in France (europe-west9, Paris).</p>
+  <ul>
+    <li><strong>Organisers</strong>: open the competition in the app (Sessions tab) and tap
+    <strong>Supprimer</strong> (Delete). Everything is erased from the server at once.</li>
+    <li><strong>Participants</strong>: ask the organiser to delete your entry.</li>
+    <li><strong>Anyone</strong>: e-mail
+    <a href="mailto:contact@boninydev.com">contact@boninydev.com</a> with the six-character
+    competition code and your name. We delete your entry and your scores
+    <strong>within 30 days</strong> and reply to confirm. No proof of identity is asked for.</li>
+  </ul>
+  <p><strong>Deleted</strong>: all of the above, with no copy kept. <strong>Retained</strong>:
+  nothing about you — no backup, no archive, no derived statistics.</p>
+</section>
+
+<p class="maj">Dernière mise à jour : 19 novembre 2026</p>
+
+</div>
+</body>
+</html>
