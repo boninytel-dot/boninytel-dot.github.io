@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Concours — Score Arc Sarbacane</title>
+<meta name="description" content="Rejoindre un concours de tir a l'arc ou de sarbacane et marquer ses volees depuis son telephone. Gratuit, sans compte.">
+<meta name="theme-color" content="#12161C">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icone-512.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Concours SAS">
+<style>
+/* Cette page est le pendant iPhone de l'application : un participant, rien
+   d'autre. Pas d'organisation de concours, pas de statistiques, pas de
+   camera — juste s'inscrire, marquer, envoyer. Elle reprend la palette de
+   l'application pour qu'on reconnaisse la meme maison. */
+:root{
+  --bg:#12161C; --bg2:#0C0F14; --card:#1B222B; --card2:#232C37;
+  --txt:#F2F5F8; --dim:#9AA7B4; --dim2:#6B7885;
+  --line:rgba(255,255,255,.09); --row:rgba(255,255,255,.05);
+  --accent:#F2B705; --accent-ink:#1A1300;
+  --red:#E4473C; --green:#35B36B; --danger:#FF6B5E;
+  --ui:"Roboto Condensed","sans-serif-condensed","Segoe UI",system-ui,sans-serif;
+  --body:"Roboto","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);
+  font-family:var(--body);line-height:1.5;overscroll-behavior-y:none}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right)
+  env(safe-area-inset-bottom) env(safe-area-inset-left)}
+header{position:sticky;top:0;z-index:5;background:rgba(12,15,20,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  padding:12px 16px;display:flex;align-items:center;gap:10px}
+header .logo{width:26px;height:26px;flex:0 0 auto}
+header h1{font-family:var(--ui);font-size:17px;margin:0;font-weight:600;letter-spacing:.01em}
+main{max-width:620px;margin:0 auto;padding:16px 16px 48px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px;margin-bottom:14px}
+.card h2{font-family:var(--ui);font-size:15px;margin:0 0 10px;font-weight:600;
+  letter-spacing:.02em;color:var(--dim)}
+.t{font-weight:600}
+.s{color:var(--dim);font-size:13px}
+label{display:block;font-size:12px;color:var(--dim);margin:12px 0 4px;
+  text-transform:uppercase;letter-spacing:.06em}
+input,select{width:100%;background:var(--bg2);color:var(--txt);
+  border:1px solid var(--line);border-radius:10px;padding:12px;font-size:16px;
+  font-family:var(--body)}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:14px;
+  font-size:15px;font-weight:600;font-family:var(--ui);letter-spacing:.02em;
+  background:var(--card2);color:var(--txt);margin-top:12px;cursor:pointer}
+.btn.pri{background:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.5}
+.ligne{display:flex;gap:10px}
+.ligne .btn{margin-top:0}
+.gros{font-family:var(--ui);font-size:42px;font-weight:700;letter-spacing:.14em;
+  text-align:center;margin:4px 0 2px}
+.cases{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px}
+.case{flex:1 1 44px;min-width:44px;height:52px;border-radius:10px;
+  background:var(--bg2);border:1px solid var(--line);display:flex;
+  align-items:center;justify-content:center;font-family:var(--ui);
+  font-size:21px;font-weight:700}
+.case.cur{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.case.vide{color:var(--dim2)}
+.clavier{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
+.clavier button{height:54px;border:0;border-radius:11px;background:var(--card2);
+  color:var(--txt);font-family:var(--ui);font-size:20px;font-weight:700;cursor:pointer}
+.clavier button.rate{background:#3A2320;color:var(--danger)}
+.clavier button:active{background:var(--accent);color:var(--accent-ink)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+th{color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase;
+  letter-spacing:.05em}
+td.n,th.n{text-align:right;font-family:var(--ui);font-variant-numeric:tabular-nums}
+tr.moi td{color:var(--accent)}
+.pied{color:var(--dim2);font-size:12px;text-align:center;margin-top:26px;line-height:1.7}
+.pied a{color:var(--dim)}
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);
+  background:var(--card2);border:1px solid var(--line);border-radius:10px;
+  padding:11px 16px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.45);
+  opacity:0;pointer-events:none;transition:opacity .18s;z-index:50;max-width:88vw}
+#toast.on{opacity:1}
+.err{color:var(--danger)}
+.badge{display:inline-block;background:var(--row);border-radius:999px;
+  padding:3px 10px;font-size:12px;color:var(--dim)}
+.pose{margin-top:14px;padding:12px 14px;border:1px dashed var(--line);
+  border-radius:12px;color:var(--dim);font-size:13px}
+.pose b{color:var(--txt)}
+</style>
+</head>
+<body>
+<header>
+  <svg class="logo" viewBox="0 0 48 48" aria-hidden="true">
+    <circle cx="24" cy="24" r="22" fill="#1FA3DB"/>
+    <circle cx="24" cy="24" r="15" fill="#E4473C"/>
+    <circle cx="24" cy="24" r="8" fill="#F2B705"/>
+    <circle cx="24" cy="24" r="2.6" fill="#12161C"/>
+  </svg>
+  <h1>Concours — Score Arc Sarbacane</h1>
+</header>
+<main id="app"><div class="card"><div class="s">Chargement…</div></div></main>
+<div id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* La configuration web de Firebase est publique par construction : elle
+   identifie le projet, elle n'autorise rien. Ce sont les regles de
+   securite du serveur qui decident qui lit et qui ecrit quoi. */
+var FB_CLE    = "AIzaSyDZUoOYH1jx5f5oxEWx_rwLW1mCi6p8lG4";
+var FB_PROJET = "sas-concours";
+var FB_BASE   = "https://firestore.googleapis.com/v1/projects/" + FB_PROJET +
+                "/databases/(default)/documents";
+var CLE = "sas.concours.pwa";
+var LIEN_APP = "https://play.google.com/store/apps/details?id=dev.boniny.sas";
+
+/* ---------------------------------------------------------------- outils */
+var APP = document.getElementById("app");
+function $(s, r){ return (r || document).querySelector(s); }
+function esc(s){
+  return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+var minuteurToast = null;
+function toast(m){
+  var z = document.getElementById("toast");
+  z.textContent = m; z.classList.add("on");
+  if(minuteurToast) clearTimeout(minuteurToast);
+  minuteurToast = setTimeout(function(){ z.classList.remove("on"); }, 2600);
+}
+function etat(){
+  try{ return JSON.parse(localStorage.getItem(CLE) || "{}"); }catch(e){ return {}; }
+}
+function garder(o){
+  try{ localStorage.setItem(CLE, JSON.stringify(o)); }catch(e){}
+}
+function dateFR(ms){
+  try{ return new Date(ms).toLocaleDateString("fr-FR"); }catch(e){ return ""; }
+}
+function distFR(d){ return String(d).replace(".", ","); }
+
+/* --------------------------------------------------------- Firestore REST
+   Meme encodage que l'application : Firestore veut des valeurs typees. */
+function fbVal(v){
+  if(v === null || v === undefined) return {nullValue:null};
+  if(typeof v === "boolean") return {booleanValue:v};
+  if(typeof v === "number")
+    return (Math.floor(v) === v && Math.abs(v) < 9e15)
+      ? {integerValue:String(v)} : {doubleValue:v};
+  if(Array.isArray(v)) return {arrayValue:{values:v.map(fbVal)}};
+  if(typeof v === "object"){
+    var f = {};
+    Object.keys(v).forEach(function(k){ f[k] = fbVal(v[k]); });
+    return {mapValue:{fields:f}};
+  }
+  return {stringValue:String(v)};
+}
+function fbLire(v){
+  if(!v) return null;
+  if(v.nullValue !== undefined) return null;
+  if(v.booleanValue !== undefined) return v.booleanValue;
+  if(v.integerValue !== undefined) return parseInt(v.integerValue, 10);
+  if(v.doubleValue !== undefined) return v.doubleValue;
+  if(v.stringValue !== undefined) return v.stringValue;
+  if(v.timestampValue !== undefined) return Date.parse(v.timestampValue);
+  if(v.arrayValue !== undefined) return (v.arrayValue.values || []).map(fbLire);
+  if(v.mapValue !== undefined){
+    var o = {}, f = v.mapValue.fields || {};
+    Object.keys(f).forEach(function(k){ o[k] = fbLire(f[k]); });
+    return o;
+  }
+  return null;
+}
+function fbChamps(o){
+  var f = {};
+  Object.keys(o).forEach(function(k){ f[k] = fbVal(o[k]); });
+  return f;
+}
+
+var Nuage = {
+  jeton:null, uid:null, echeance:0,
+  connecter: function(){
+    var N = Nuage;
+    if(N.jeton && Date.now() < N.echeance - 60000) return Promise.resolve(N.uid);
+    var m = etat();
+    var req = m.rafraichir
+      ? fetch("https://securetoken.googleapis.com/v1/token?key=" + FB_CLE, {
+          method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"},
+          body:"grant_type=refresh_token&refresh_token=" + encodeURIComponent(m.rafraichir)
+        }).then(function(r){ return r.json(); }).then(function(j){
+          if(!j.id_token) throw new Error("jeton refuse");
+          return {idToken:j.id_token, refreshToken:j.refresh_token,
+                  localId:j.user_id, expiresIn:j.expires_in};
+        })
+      : fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + FB_CLE, {
+          method:"POST", headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({returnSecureToken:true})
+        }).then(function(r){ return r.json(); }).then(function(j){
+          if(!j.idToken) throw new Error(j.error ? j.error.message : "connexion refusee");
+          return j;
+        });
+    return req.then(function(j){
+      N.jeton = j.idToken; N.uid = j.localId;
+      N.echeance = Date.now() + (parseInt(j.expiresIn, 10) || 3600) * 1000;
+      var o = etat(); o.rafraichir = j.refreshToken; o.uid = j.localId; garder(o);
+      return N.uid;
+    }).catch(function(e){
+      if(m.rafraichir){ var o = etat(); delete o.rafraichir; garder(o);
+                        return Nuage.connecter(); }
+      throw e;
+    });
+  },
+  appel: function(chemin, options){
+    return Nuage.connecter().then(function(){
+      var o = options || {};
+      o.headers = o.headers || {};
+      o.headers["Authorization"] = "Bearer " + Nuage.jeton;
+      return fetch(FB_BASE + chemin, o);
+    });
+  },
+  lire: function(chemin){
+    return Nuage.appel(chemin, {}).then(function(r){
+      if(r.status === 404) return null;
+      return r.json().then(function(j){
+        if(j.error) throw new Error(j.error.message);
+        return fbLire({mapValue:{fields:j.fields || {}}});
+      });
+    });
+  },
+  ecrire: function(chemin, donnees){
+    return Nuage.appel(chemin, {
+      method:"PATCH", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({fields:fbChamps(donnees)})
+    }).then(function(r){
+      return r.json().then(function(j){
+        if(j.error) throw new Error(j.error.message);
+        return fbLire({mapValue:{fields:j.fields || {}}});
+      });
+    });
+  },
+  lister: function(chemin){
+    return Nuage.appel(chemin + "?pageSize=300", {}).then(function(r){
+      return r.json().then(function(j){
+        if(j.error) throw new Error(j.error.message);
+        return (j.documents || []).map(function(d){
+          var o = fbLire({mapValue:{fields:d.fields || {}}});
+          o.__id = d.name.split("/").pop();
+          return o;
+        });
+      });
+    });
+  }
+};
+
+/* ------------------------------------------------------------- le clavier
+   Le concours transporte son propre clavier : c'est l'organisateur qui
+   connait le blason, cette page n'a pas le catalogue. Sans clavier joint
+   — un concours cree par une version anterieure — on retombe sur le
+   decompte classique de 10 a 1. */
+function clavierDe(c){
+  var k = (c && c.clavier) || [];
+  if(k.length) return k.map(function(v){
+    return typeof v === "object" ? v : {l:String(v), s:v};
+  });
+  var d = [{l:"X",s:10},{l:"10",s:10},{l:"9",s:9},{l:"8",s:8},{l:"7",s:7},
+           {l:"6",s:6},{l:"5",s:5},{l:"4",s:4},{l:"3",s:3},{l:"2",s:2},{l:"1",s:1}];
+  return d;
+}
+
+/* -------------------------------------------------------------- la seance
+   Une seance locale : les volees, et rien d'autre. Elle vit dans le
+   telephone ; seul le total part chez l'organisateur. */
+function seanceNeuve(code, c, fiche){
+  var v = [], i, j;
+  for(i=0;i<c.format.v;i++){
+    var vol = [];
+    for(j=0;j<c.format.n;j++) vol.push(null);
+    v.push(vol);
+  }
+  return {code:code, volees:v, vi:0, ai:0,
+          prenom:fiche.prenom, nom:fiche.nom, categorie:fiche.categorie};
+}
+function totalSeance(s){
+  var t = 0, tire = 0, dix = 0, x = 0;
+  s.volees.forEach(function(v){
+    v.forEach(function(p){
+      if(p === null) return;
+      tire++; t += p.s;
+      if(p.l === "X"){ x++; dix++; }
+      else if(p.s === 10) dix++;
+    });
+  });
+  return {total:t, tire:tire, dix:dix, x:x};
+}
+
+/* ============================================================ les ecrans */
+function vue(h){ APP.innerHTML = h; window.scrollTo(0, 0); }
+
+function pied(){
+  return '<div class="pied">Score Arc Sarbacane — participation gratuite.<br>' +
+    'Sur Android, l’application complete existe aussi : ' +
+    '<a href="' + LIEN_APP + '" target="_blank" rel="noopener">Google&nbsp;Play</a>.<br>' +
+    '<a href="../">Politique de confidentialite</a></div>';
+}
+
+/* ---- 1. entrer le code ---- */
+function ecranCode(msg){
+  vue('<div class="card">' +
+      '<h2>Rejoindre un concours</h2>' +
+      '<div class="s">Tapez le code que l’organisateur affiche, ou scannez ' +
+      'son QR code. C’est gratuit et sans compte.</div>' +
+      (msg ? '<div class="s err" style="margin-top:10px">' + esc(msg) + '</div>' : '') +
+      '<label for="cde">Code du concours</label>' +
+      '<input id="cde" maxlength="7" autocapitalize="characters" autocomplete="off" ' +
+      'spellcheck="false" inputmode="text" placeholder="ABC 123" ' +
+      'style="font-family:var(--ui);font-size:26px;letter-spacing:.18em;text-align:center">' +
+      '<button class="btn pri" id="go">Chercher</button>' +
+      '</div>' + pied());
+  var e = $("#cde");
+  e.addEventListener("input", function(){
+    this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+  });
+  e.addEventListener("keydown", function(ev){ if(ev.key === "Enter") chercher(); });
+  $("#go").onclick = chercher;
+  function chercher(){
+    var code = e.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+    if(code.length !== 6){ toast("Il faut 6 caracteres."); return; }
+    ouvrir(code);
+  }
+}
+
+function ouvrir(code){
+  var b = $("#go"); if(b){ b.disabled = true; b.textContent = "Recherche…"; }
+  Nuage.lire("/concours/" + code).then(function(c){
+    if(!c){ ecranCode("Aucun concours avec ce code."); return; }
+    c.code = code;
+    var m = etat();
+    if(m.inscrit && m.inscrit[code]) ecranMarque(code, c);
+    else if(c.etat !== "ouvert") ecranClos(c);
+    else ecranInscription(code, c);
+  }).catch(function(e){
+    ecranCode("Connexion impossible : " + e.message);
+  });
+}
+
+function ecranClos(c){
+  vue('<div class="card"><h2>' + esc(c.nom) + '</h2>' +
+      '<div class="s">Ce concours est clos : il n’accepte plus d’inscription.</div>' +
+      '<button class="btn" id="cl">Voir le classement</button>' +
+      '<button class="btn" id="re">Un autre concours</button></div>' + pied());
+  $("#cl").onclick = function(){ ecranClassement(c.code, c); };
+  $("#re").onclick = function(){ ecranCode(); };
+}
+
+/* ---- 2. s'inscrire ---- */
+function ecranInscription(code, c){
+  var p = etat().profil || {};
+  var cats = c.categories || [];
+  vue('<div class="card">' +
+      '<div class="t">' + esc(c.nom) + '</div>' +
+      '<div class="s">' + esc(c.club || "") + (c.lieu ? ' · ' + esc(c.lieu) : '') +
+      ' · ' + dateFR(c.date) + '</div>' +
+      '<div class="s" style="margin-top:6px">' + distFR(c.format.d) + ' m · ' +
+      c.format.t + ' cm · ' + c.format.v + ' volees de ' + c.format.n + '</div>' +
+      '</div>' +
+      '<div class="card"><h2>Votre inscription</h2>' +
+      '<label for="pr">Prenom</label><input id="pr" value="' + esc(p.prenom || "") +
+      '" autocomplete="given-name">' +
+      '<label for="no">Nom</label><input id="no" value="' + esc(p.nom || "") +
+      '" autocomplete="family-name">' +
+      '<label for="li">Numero de licence</label><input id="li" value="' +
+      esc(p.licence || "") + '" autocomplete="off">' +
+      '<label for="cb">Club</label><input id="cb" value="' + esc(p.club || "") +
+      '" autocomplete="organization">' +
+      (cats.length ? '<label for="ca">Categorie</label><select id="ca">' +
+        cats.map(function(x){
+          return '<option' + (x === p.categorie ? ' selected' : '') + '>' + esc(x) +
+                 '</option>';
+        }).join("") + '</select>' : '') +
+      '<div class="s" style="margin-top:14px">L’organisateur voit votre nom, ' +
+      'votre licence et votre club. Les autres participants ne voient que ' +
+      'votre prenom, l’initiale de votre nom et votre total.</div>' +
+      '<button class="btn pri" id="ok">Rejoindre</button>' +
+      '</div>' + pied());
+  $("#ok").onclick = function(){
+    var fiche = {
+      prenom: $("#pr").value.trim(), nom: $("#no").value.trim(),
+      licence: $("#li").value.trim(), club: $("#cb").value.trim(),
+      categorie: $("#ca") ? $("#ca").value : "", inscrit: Date.now()
+    };
+    if(!fiche.prenom || !fiche.nom){ toast("Prenom et nom sont demandes"); return; }
+    var b = $("#ok"); b.disabled = true; b.textContent = "Inscription…";
+    var pub = {
+      affichage: fiche.prenom + " " + fiche.nom.slice(0,1).toUpperCase() + ".",
+      categorie: fiche.categorie, total:0, volees:0, nb10:0, nbX:0, modifie:Date.now()
+    };
+    Nuage.connecter().then(function(uid){
+      return Promise.all([
+        Nuage.ecrire("/concours/" + code + "/participants/" + uid, fiche),
+        Nuage.ecrire("/concours/" + code + "/classement/" + uid, pub)
+      ]).then(function(){
+        var m = etat();
+        m.profil = {prenom:fiche.prenom, nom:fiche.nom, licence:fiche.licence,
+                    club:fiche.club, categorie:fiche.categorie};
+        m.inscrit = m.inscrit || {};
+        m.inscrit[code] = seanceNeuve(code, c, fiche);
+        garder(m);
+        ecranMarque(code, c);
+      });
+    }).catch(function(e){
+      b.disabled = false; b.textContent = "Rejoindre";
+      toast("Inscription impossible : " + e.message);
+    });
+  };
+}
+
+/* ---- 3. marquer ---- */
+function seanceDe(code){ return (etat().inscrit || {})[code] || null; }
+function rangerSeance(code, s){
+  var m = etat(); m.inscrit = m.inscrit || {}; m.inscrit[code] = s; garder(m);
+}
+
+function ecranMarque(code, c){
+  var s = seanceDe(code);
+  if(!s){ ecranCode(); return; }
+  var cl = clavierDe(c), t = totalSeance(s);
+  var v = s.volees[s.vi];
+  var total = t.total;
+
+  vue('<div class="card" style="display:flex;align-items:center;gap:12px">' +
+      '<div style="flex:1 1 auto;min-width:0">' +
+      '<div class="t" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
+      esc(c.nom) + '</div>' +
+      '<div class="s">' + esc(s.prenom) + ' ' + esc(s.nom) +
+      (s.categorie ? ' · ' + esc(s.categorie) : '') + '</div></div>' +
+      '<div style="text-align:right"><div class="s">Total</div>' +
+      '<div style="font-family:var(--ui);font-size:30px;font-weight:700" id="tot">' +
+      total + '</div></div></div>' +
+
+      '<div class="card">' +
+      '<h2>Volee ' + (s.vi + 1) + ' sur ' + s.volees.length + '</h2>' +
+      '<div class="cases" id="cases"></div>' +
+      '<div class="clavier" id="clav">' +
+      cl.map(function(k, i){
+        return '<button data-k="' + i + '">' + esc(k.l) + '</button>';
+      }).join("") +
+      '<button class="rate" data-k="-1">M</button>' +
+      '</div>' +
+      '<div class="ligne" style="margin-top:12px">' +
+      '<button class="btn" id="prec">‹ Precedente</button>' +
+      '<button class="btn" id="eff">⌫ Effacer</button>' +
+      '</div>' +
+      '<button class="btn pri" id="env">Valider la volee</button>' +
+      '</div>' +
+
+      '<div class="card"><h2>Classement</h2>' +
+      '<div id="cls" class="s">Chargement…</div>' +
+      '<button class="btn" id="raf">Actualiser</button></div>' +
+      pied());
+
+  dessineCases();
+  function dessineCases(){
+    $("#cases").innerHTML = s.volees[s.vi].map(function(p, i){
+      return '<div class="case' + (i === s.ai ? ' cur' : '') +
+             (p === null ? ' vide' : '') + '" data-a="' + i + '">' +
+             (p === null ? '·' : esc(p.l)) + '</div>';
+    }).join("");
+    Array.prototype.forEach.call(document.querySelectorAll("#cases .case"),
+      function(e){
+        e.onclick = function(){ s.ai = +e.getAttribute("data-a"); rangerSeance(code, s); dessineCases(); };
+      });
+    $("#tot").textContent = totalSeance(s).total;
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll("#clav button"),
+    function(b){
+      b.onclick = function(){
+        var i = +b.getAttribute("data-k");
+        var k = (i < 0) ? {l:"M", s:0} : cl[i];
+        s.volees[s.vi][s.ai] = {l:k.l, s:k.s};
+        if(s.ai < s.volees[s.vi].length - 1) s.ai++;
+        rangerSeance(code, s);
+        if(navigator.vibrate) try{ navigator.vibrate(10); }catch(e){}
+        dessineCases();
+      };
+    });
+
+  $("#eff").onclick = function(){
+    s.volees[s.vi][s.ai] = null; rangerSeance(code, s); dessineCases();
+  };
+  $("#prec").onclick = function(){
+    if(s.vi > 0){ s.vi--; s.ai = 0; rangerSeance(code, s); ecranMarque(code, c); }
+  };
+  $("#env").onclick = function(){
+    if(s.volees[s.vi].some(function(x){ return x === null; })){
+      toast("La volee n’est pas complete.");
+      return;
+    }
+    var b = $("#env"); b.disabled = true; b.textContent = "Envoi…";
+    envoyer(code, s).then(function(){
+      toast("Volee envoyee a l’organisateur");
+      if(s.vi < s.volees.length - 1){ s.vi++; s.ai = 0; }
+      rangerSeance(code, s);
+      ecranMarque(code, c);
+    }).catch(function(e){
+      b.disabled = false; b.textContent = "Valider la volee";
+      toast("Envoi impossible : " + e.message);
+    });
+  };
+  $("#raf").onclick = function(){ chargerClassement(code); };
+  chargerClassement(code);
+}
+
+function envoyer(code, s){
+  var t = totalSeance(s), n = s.volees[0].length;
+  var pub = {
+    affichage: s.prenom + " " + s.nom.slice(0,1).toUpperCase() + ".",
+    categorie: s.categorie || "",
+    total: t.total, volees: n ? Math.ceil(t.tire / n) : 0,
+    nb10: t.dix, nbX: t.x, modifie: Date.now()
+  };
+  return Nuage.connecter().then(function(uid){
+    return Nuage.ecrire("/concours/" + code + "/classement/" + uid, pub);
+  });
+}
+
+function chargerClassement(code){
+  var z = $("#cls");
+  if(!z) return;
+  z.textContent = "Chargement…";
+  Nuage.lister("/concours/" + code + "/classement").then(function(L){
+    if(!z.isConnected) return;
+    if(!L.length){ z.textContent = "Personne n’a encore envoye de volee."; return; }
+    L.sort(function(a, b){
+      return (b.total - a.total) || (b.nbX - a.nbX) || (b.nb10 - a.nb10);
+    });
+    var moi = etat().uid;
+    z.innerHTML = '<table><tr><th>#</th><th>Archer</th><th>Categorie</th>' +
+      '<th class="n">Volees</th><th class="n">Total</th></tr>' +
+      L.map(function(x, i){
+        return '<tr' + (x.__id === moi ? ' class="moi"' : '') + '><td>' + (i+1) +
+          '</td><td>' + esc(x.affichage) + '</td><td>' + esc(x.categorie || "") +
+          '</td><td class="n">' + (x.volees || 0) + '</td><td class="n">' +
+          (x.total || 0) + '</td></tr>';
+      }).join("") + '</table>';
+  }).catch(function(e){
+    if(z.isConnected) z.textContent = "Classement indisponible : " + e.message;
+  });
+}
+
+function ecranClassement(code, c){
+  vue('<div class="card"><div class="t">' + esc(c.nom) + '</div>' +
+      '<div class="s">' + esc(c.club || "") + ' · ' + dateFR(c.date) + '</div></div>' +
+      '<div class="card"><h2>Classement</h2><div id="cls" class="s">Chargement…</div>' +
+      '<button class="btn" id="raf">Actualiser</button>' +
+      '<button class="btn" id="re">Un autre concours</button></div>' + pied());
+  $("#raf").onclick = function(){ chargerClassement(code); };
+  $("#re").onclick = function(){ ecranCode(); };
+  chargerClassement(code);
+}
+
+/* ------------------------------------------------------------- demarrage */
+var params = new URLSearchParams(location.search);
+var codeURL = (params.get("c") || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+if(codeURL.length === 6){
+  vue('<div class="card"><div class="s">Ouverture du concours ' +
+      esc(codeURL.slice(0,3) + " " + codeURL.slice(3)) + '…</div></div>');
+  ouvrir(codeURL);
+} else {
+  var m = etat(), encours = Object.keys(m.inscrit || {});
+  if(encours.length === 1){
+    vue('<div class="card"><div class="s">Reprise de votre concours…</div></div>');
+    ouvrir(encours[0]);
+  } else {
+    ecranCode();
+  }
+}
+
+/* Le service worker sert a une seule chose ici : permettre l'ajout a
+   l'ecran d'accueil sur iPhone et garder la page disponible quand le
+   reseau du gymnase flanche. Les ecritures, elles, ont besoin du reseau. */
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
+}
+})();
+</script>
+</body>
+</html>

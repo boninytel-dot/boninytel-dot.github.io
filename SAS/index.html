@@ -98,15 +98,20 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
     <h2>En deux phrases</h2>
     <p><strong>Score Arc Sarbacane ne collecte aucune donnée personnelle et n'envoie rien à BoninyDev.</strong>
     Toutes vos séances, votre matériel et vos réglages restent sur votre téléphone.</p>
-    <p>Seules deux exceptions existent, et elles viennent de Google : la régie publicitaire
-    AdMob et, si vous achetez la version sans publicité, Google Play.</p>
+    <p>Trois exceptions existent. Deux viennent de Google : la régie publicitaire AdMob
+    et, si vous achetez la version sans publicité ou l'abonnement organisateur, Google Play.
+    La troisième est le <strong>mode concours</strong> : si — et seulement si — vous créez
+    un concours ou en rejoignez un, votre nom et votre numéro de licence sont envoyés à un
+    serveur. Le détail est plus bas.</p>
   </section>
 
   <section>
     <h2>Ce que l'application enregistre</h2>
     <p>Vos séances de tir, vos scores, la position de vos impacts, votre matériel, vos blasons
     personnalisés et vos réglages sont enregistrés <strong>uniquement dans la mémoire locale de
-    l'application</strong>, sur votre appareil. Il n'y a ni compte, ni inscription, ni serveur.</p>
+    l'application</strong>, sur votre appareil. Il n'y a ni compte, ni inscription, ni mot de
+    passe. Rien de tout cela ne part sur un serveur — <strong>sauf les scores d'un concours
+    auquel vous choisissez de participer</strong>, décrits plus bas.</p>
     <p>Désinstaller l'application efface définitivement ces données. Le menu
     Réglages → Données → Sauvegarder vous permet d'en exporter une copie dans un fichier qui
     vous appartient, que nous ne recevons jamais.</p>
@@ -152,9 +157,55 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
   </section>
 
   <section>
+    <h2>Le mode concours</h2>
+    <p>Cette section ne concerne que vous si vous <strong>créez un concours ou en rejoignez
+    un</strong>. Tant que vous ne le faites pas, l'application ne communique avec aucun serveur.</p>
+    <p><strong>Une identité anonyme.</strong> À la première utilisation du mode concours,
+    Firebase Authentication crée pour votre appareil un identifiant anonyme : ni adresse
+    e-mail, ni mot de passe, ni nom. Il sert uniquement à prouver au serveur que c'est bien
+    vous qui modifiez votre feuille de marque, et pas quelqu'un d'autre.</p>
+    <p><strong>Ce qui est envoyé.</strong> En vous inscrivant à un concours, vous saisissez
+    vos prénom, nom, numéro de licence, club et catégorie. Ces informations, puis vos scores
+    volée par volée, sont enregistrés chez <strong>Google Firebase Firestore</strong>, sur des
+    serveurs situés en France (région <em>europe-west9</em>, Paris).</p>
+    <p><strong>Qui voit quoi.</strong> L'organisateur du concours voit votre fiche complète :
+    prénom, nom, licence, club, catégorie et scores — c'est l'objet même de son inscription à
+    la compétition. Les autres participants, et toute personne qui possède le code du concours,
+    ne voient que votre <strong>prénom, l'initiale de votre nom, votre catégorie et votre
+    total</strong>. Les numéros de licence ne sont lisibles par personne d'autre que vous et
+    l'organisateur : ce n'est pas une promesse, c'est une règle appliquée par le serveur, qui
+    refuse toute autre lecture.</p>
+    <p><strong>Combien de temps.</strong> L'organisateur peut supprimer le concours et tous
+    ses résultats à tout moment, depuis son téléphone. Les concours clos depuis plus de trois
+    mois sont effacés automatiquement.</p>
+    <p><strong>Pourquoi.</strong> Ces données servent uniquement à faire fonctionner le
+    concours auquel vous avez choisi de vous inscrire, et à rien d'autre : aucune publicité,
+    aucune statistique, aucune revente, aucun recoupement. BoninyDev ne les exploite pas.</p>
+    <p><strong>Vous retirer.</strong> Demandez à l'organisateur de supprimer votre inscription,
+    ou écrivez à <a href="mailto:contact@boninydev.com">contact@boninydev.com</a> en indiquant
+    le code du concours et votre nom.</p>
+    <p><strong>Sur iPhone.</strong> La page
+    <a href="concours/">boninytel-dot.github.io/SAS/concours/</a> permet de participer sans
+    installer d'application. Elle fait exactement la même chose, avec les mêmes règles, et
+    garde votre inscription dans la mémoire locale de votre navigateur.</p>
+    <p>Traitement par Google : <a href="https://firebase.google.com/support/privacy">
+    Confidentialité et sécurité dans Firebase</a>.</p>
+  </section>
+
+  <section>
+    <h2>Abonnement organisateur</h2>
+    <p>Créer des concours est une fonction payante, par abonnement annuel, facturé par
+    <strong>Google Play</strong>. Participer à un concours est et reste gratuit, sur Android
+    comme sur iPhone. BoninyDev ne voit, ne reçoit et ne conserve aucune donnée de paiement :
+    nous savons seulement, sur votre appareil, si l'abonnement est actif.</p>
+  </section>
+
+  <section>
     <h2>Enfants</h2>
     <p>L'application n'est pas destinée aux enfants de moins de 13 ans et ne leur demande aucune
-    information.</p>
+    information. Un concours peut accueillir des mineurs : dans ce cas, c'est l'organisateur,
+    responsable de sa compétition, qui recueille l'accord des représentants légaux, comme il
+    le ferait pour une feuille de marque papier.</p>
   </section>
 
   <section>
@@ -169,7 +220,7 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
     <h2>Contact</h2>
     <p>Une question sur cette politique : <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
   </section>
-  <p class="maj">Dernière mise à jour : 9 novembre 2026</p>
+  <p class="maj">Dernière mise à jour : 19 novembre 2026</p>
 </div>
 
 <!-- ================= ENGLISH ================= -->
@@ -178,15 +229,18 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
     <h2>In two sentences</h2>
     <p><strong>Score Arc Sarbacane collects no personal data and sends nothing to BoninyDev.</strong>
     All your sessions, equipment and settings stay on your phone.</p>
-    <p>There are only two exceptions, and both come from Google: the AdMob advertising network and,
-    if you buy the ad-free version, Google Play.</p>
+    <p>There are three exceptions. Two come from Google: the AdMob advertising network and,
+    if you buy the ad-free version or the organiser subscription, Google Play. The third is
+    <strong>competition mode</strong>: if — and only if — you create or join a competition,
+    your name and licence number are sent to a server. The details are below.</p>
   </section>
 
   <section>
     <h2>What the app stores</h2>
     <p>Your shooting sessions, scores, hit positions, equipment, custom target faces and settings
     are stored <strong>only in the app's local storage</strong>, on your device. There is no
-    account, no sign-up and no server.</p>
+    account, no sign-up and no password. None of it leaves for a server — <strong>except the
+    scores of a competition you choose to take part in</strong>, described below.</p>
     <p>Uninstalling the app erases this data for good. Settings → Data → Back up lets you export a
     copy to a file that belongs to you and that we never receive.</p>
   </section>
@@ -228,6 +282,49 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
   </section>
 
   <section>
+    <h2>Competition mode</h2>
+    <p>This section only concerns you if you <strong>create or join a competition</strong>.
+    Until you do, the app talks to no server at all.</p>
+    <p><strong>An anonymous identity.</strong> The first time you use competition mode,
+    Firebase Authentication creates an anonymous identifier for your device: no e-mail address,
+    no password, no name. Its only job is to prove to the server that it really is you editing
+    your own scoresheet.</p>
+    <p><strong>What is sent.</strong> When you register for a competition you enter your first
+    name, surname, licence number, club and category. Those, and then your scores end by end,
+    are stored with <strong>Google Firebase Firestore</strong>, on servers located in France
+    (region <em>europe-west9</em>, Paris).</p>
+    <p><strong>Who sees what.</strong> The organiser sees your full entry: first name, surname,
+    licence, club, category and scores — that is what running a competition requires. Other
+    participants, and anyone holding the competition code, only see your <strong>first name,
+    the initial of your surname, your category and your total</strong>. Licence numbers are
+    readable by nobody but you and the organiser: that is not a promise, it is a rule enforced
+    by the server, which refuses any other read.</p>
+    <p><strong>For how long.</strong> The organiser can delete the competition and all its
+    results at any time, from their phone. Competitions closed for more than three months are
+    deleted automatically.</p>
+    <p><strong>Why.</strong> This data exists only to run the competition you chose to enter,
+    and nothing else: no advertising, no analytics, no resale, no cross-referencing. BoninyDev
+    makes no other use of it.</p>
+    <p><strong>Withdrawing.</strong> Ask the organiser to delete your entry, or write to
+    <a href="mailto:contact@boninydev.com">contact@boninydev.com</a> quoting the competition
+    code and your name.</p>
+    <p><strong>On iPhone.</strong> The page
+    <a href="concours/">boninytel-dot.github.io/SAS/concours/</a> lets you take part without
+    installing an app. It does exactly the same thing, under the same rules, and keeps your
+    entry in your browser's local storage.</p>
+    <p>Processing by Google: <a href="https://firebase.google.com/support/privacy">Privacy and
+    Security in Firebase</a>.</p>
+  </section>
+
+  <section>
+    <h2>Organiser subscription</h2>
+    <p>Creating competitions is a paid feature, sold as a yearly subscription billed by
+    <strong>Google Play</strong>. Taking part in a competition is and stays free, on Android
+    and on iPhone alike. BoninyDev sees, receives and keeps no payment data: we only know, on
+    your device, whether the subscription is active.</p>
+  </section>
+
+  <section>
     <h2>Children</h2>
     <p>The app is not directed at children under 13 and asks them for no information.</p>
   </section>
@@ -243,7 +340,7 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
     <h2>Contact</h2>
     <p>Questions about this policy: <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
   </section>
-  <p class="maj">Last updated: 9 November 2026</p>
+  <p class="maj">Last updated: 19 November 2026</p>
 </div>
 
 <!-- ================= DEUTSCH ================= -->
@@ -253,15 +350,20 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
     <p><strong>Score Arc Sarbacane erhebt keine personenbezogenen Daten und sendet nichts an
     BoninyDev.</strong> Alle Sitzungen, dein Material und deine Einstellungen bleiben auf deinem
     Telefon.</p>
-    <p>Es gibt nur zwei Ausnahmen, und beide kommen von Google: das Werbenetzwerk AdMob und, falls
-    du die werbefreie Version kaufst, Google Play.</p>
+    <p>Es gibt drei Ausnahmen. Zwei kommen von Google: das Werbenetzwerk AdMob und, falls du
+    die werbefreie Version oder das Veranstalter-Abonnement kaufst, Google Play. Die dritte ist
+    der <strong>Wettkampfmodus</strong>: Nur wenn du einen Wettkampf anlegst oder an einem
+    teilnimmst, werden dein Name und deine Lizenznummer an einen Server gesendet. Einzelheiten
+    weiter unten.</p>
   </section>
 
   <section>
     <h2>Was die App speichert</h2>
     <p>Deine Schießsitzungen, Ergebnisse, Trefferlagen, Material, eigene Auflagen und
     Einstellungen werden <strong>ausschließlich im lokalen Speicher der App</strong> auf deinem
-    Gerät abgelegt. Es gibt kein Konto, keine Anmeldung und keinen Server.</p>
+    Gerät abgelegt. Es gibt kein Konto, keine Anmeldung und kein Passwort. Nichts davon geht
+    an einen Server — <strong>außer den Ergebnissen eines Wettkampfs, an dem du teilnehmen
+    willst</strong>, siehe unten.</p>
     <p>Das Deinstallieren löscht diese Daten endgültig. Über Einstellungen → Daten → Sichern
     kannst du eine Kopie in eine Datei exportieren, die dir gehört und die wir nie erhalten.</p>
   </section>
@@ -304,6 +406,49 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
   </section>
 
   <section>
+    <h2>Wettkampfmodus</h2>
+    <p>Dieser Abschnitt betrifft dich nur, wenn du einen <strong>Wettkampf anlegst oder an
+    einem teilnimmst</strong>. Solange du das nicht tust, spricht die App mit keinem Server.</p>
+    <p><strong>Eine anonyme Identität.</strong> Beim ersten Einsatz des Wettkampfmodus legt
+    Firebase Authentication für dein Gerät eine anonyme Kennung an: keine E-Mail-Adresse, kein
+    Passwort, kein Name. Sie dient allein dem Nachweis gegenüber dem Server, dass wirklich du
+    deinen eigenen Schießzettel änderst.</p>
+    <p><strong>Was gesendet wird.</strong> Bei der Anmeldung zu einem Wettkampf gibst du
+    Vorname, Nachname, Lizenznummer, Verein und Klasse ein. Diese Angaben und anschließend
+    deine Ergebnisse Passe für Passe werden bei <strong>Google Firebase Firestore</strong> auf
+    Servern in Frankreich gespeichert (Region <em>europe-west9</em>, Paris).</p>
+    <p><strong>Wer was sieht.</strong> Der Veranstalter sieht deinen vollständigen Eintrag:
+    Vorname, Nachname, Lizenz, Verein, Klasse und Ergebnisse — genau dafür richtet er den
+    Wettkampf aus. Andere Teilnehmer und alle, die den Wettkampfcode haben, sehen nur
+    <strong>Vorname, den Anfangsbuchstaben des Nachnamens, Klasse und Gesamtergebnis</strong>.
+    Lizenznummern kann außer dir und dem Veranstalter niemand lesen: Das ist kein Versprechen,
+    sondern eine Regel, die der Server durchsetzt und die jeden anderen Lesezugriff ablehnt.</p>
+    <p><strong>Wie lange.</strong> Der Veranstalter kann den Wettkampf samt aller Ergebnisse
+    jederzeit von seinem Telefon aus löschen. Wettkämpfe, die seit mehr als drei Monaten
+    geschlossen sind, werden automatisch gelöscht.</p>
+    <p><strong>Wozu.</strong> Diese Daten dienen ausschließlich der Durchführung des
+    Wettkampfs, zu dem du dich angemeldet hast: keine Werbung, keine Statistik, kein
+    Weiterverkauf, keine Zusammenführung. BoninyDev nutzt sie zu nichts anderem.</p>
+    <p><strong>Zurückziehen.</strong> Bitte den Veranstalter, deine Anmeldung zu löschen, oder
+    schreibe an <a href="mailto:contact@boninydev.com">contact@boninydev.com</a> unter Angabe
+    des Wettkampfcodes und deines Namens.</p>
+    <p><strong>Auf dem iPhone.</strong> Die Seite
+    <a href="concours/">boninytel-dot.github.io/SAS/concours/</a> erlaubt die Teilnahme ohne
+    App-Installation. Sie tut genau dasselbe, nach denselben Regeln, und bewahrt deine
+    Anmeldung im lokalen Speicher deines Browsers auf.</p>
+    <p>Verarbeitung durch Google: <a href="https://firebase.google.com/support/privacy">
+    Datenschutz und Sicherheit in Firebase</a>.</p>
+  </section>
+
+  <section>
+    <h2>Veranstalter-Abonnement</h2>
+    <p>Wettkämpfe anzulegen ist eine kostenpflichtige Funktion, als Jahresabonnement über
+    <strong>Google Play</strong> abgerechnet. Die Teilnahme an einem Wettkampf ist und bleibt
+    kostenlos, auf Android wie auf dem iPhone. BoninyDev sieht, erhält und speichert keine
+    Zahlungsdaten: Wir wissen nur auf deinem Gerät, ob das Abonnement aktiv ist.</p>
+  </section>
+
+  <section>
     <h2>Kinder</h2>
     <p>Die App richtet sich nicht an Kinder unter 13 Jahren und fragt sie nach nichts.</p>
   </section>
@@ -319,7 +464,7 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
     <h2>Kontakt</h2>
     <p>Fragen zu dieser Erklärung: <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
   </section>
-  <p class="maj">Letzte Aktualisierung: 9. November 2026</p>
+  <p class="maj">Letzte Aktualisierung: 19. November 2026</p>
 </div>
 
 <!-- ================= ESPAÑOL ================= -->
@@ -328,15 +473,19 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
     <h2>En dos frases</h2>
     <p><strong>Score Arc Sarbacane no recoge ningún dato personal y no envía nada a
     BoninyDev.</strong> Todas tus sesiones, tu material y tus ajustes se quedan en tu teléfono.</p>
-    <p>Solo hay dos excepciones, y ambas vienen de Google: la red publicitaria AdMob y, si compras
-    la versión sin publicidad, Google Play.</p>
+    <p>Hay tres excepciones. Dos vienen de Google: la red publicitaria AdMob y, si compras la
+    versión sin publicidad o la suscripción de organizador, Google Play. La tercera es el
+    <strong>modo concurso</strong>: si — y solo si — creas un concurso o te unes a uno, tu
+    nombre y tu número de licencia se envían a un servidor. El detalle está más abajo.</p>
   </section>
 
   <section>
     <h2>Qué guarda la aplicación</h2>
     <p>Tus sesiones de tiro, puntuaciones, posiciones de los impactos, material, dianas
     personalizadas y ajustes se guardan <strong>únicamente en el almacenamiento local de la
-    aplicación</strong>, en tu dispositivo. No hay cuenta, ni registro, ni servidor.</p>
+    aplicación</strong>, en tu dispositivo. No hay cuenta, ni registro, ni contraseña. Nada de
+    eso sale hacia un servidor — <strong>salvo las puntuaciones de un concurso en el que elijas
+    participar</strong>, descritas más abajo.</p>
     <p>Desinstalar la aplicación borra estos datos definitivamente. En Ajustes → Datos → Copia de
     seguridad puedes exportar una copia a un archivo que es tuyo y que nunca recibimos.</p>
   </section>
@@ -380,6 +529,49 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
   </section>
 
   <section>
+    <h2>Modo concurso</h2>
+    <p>Esta sección solo te afecta si <strong>creas un concurso o te unes a uno</strong>.
+    Mientras no lo hagas, la aplicación no habla con ningún servidor.</p>
+    <p><strong>Una identidad anónima.</strong> La primera vez que usas el modo concurso,
+    Firebase Authentication crea para tu dispositivo un identificador anónimo: sin correo
+    electrónico, sin contraseña, sin nombre. Solo sirve para demostrar al servidor que eres tú
+    quien modifica tu propia hoja de marcaje.</p>
+    <p><strong>Qué se envía.</strong> Al inscribirte en un concurso introduces nombre,
+    apellidos, número de licencia, club y categoría. Eso, y después tus puntuaciones tanda a
+    tanda, se guarda en <strong>Google Firebase Firestore</strong>, en servidores situados en
+    Francia (región <em>europe-west9</em>, París).</p>
+    <p><strong>Quién ve qué.</strong> El organizador ve tu ficha completa: nombre, apellidos,
+    licencia, club, categoría y puntuaciones — es justamente lo que exige organizar una
+    competición. Los demás participantes, y cualquiera que tenga el código del concurso, solo
+    ven tu <strong>nombre, la inicial de tus apellidos, tu categoría y tu total</strong>. Los
+    números de licencia no los puede leer nadie más que tú y el organizador: no es una promesa,
+    es una regla que aplica el servidor, que rechaza cualquier otra lectura.</p>
+    <p><strong>Cuánto tiempo.</strong> El organizador puede borrar el concurso y todos sus
+    resultados en cualquier momento, desde su teléfono. Los concursos cerrados desde hace más
+    de tres meses se borran automáticamente.</p>
+    <p><strong>Para qué.</strong> Estos datos sirven únicamente para que funcione el concurso
+    en el que te has inscrito, y para nada más: sin publicidad, sin estadísticas, sin reventa,
+    sin cruces de datos. BoninyDev no les da ningún otro uso.</p>
+    <p><strong>Retirarte.</strong> Pide al organizador que borre tu inscripción, o escribe a
+    <a href="mailto:contact@boninydev.com">contact@boninydev.com</a> indicando el código del
+    concurso y tu nombre.</p>
+    <p><strong>En iPhone.</strong> La página
+    <a href="concours/">boninytel-dot.github.io/SAS/concours/</a> permite participar sin
+    instalar ninguna aplicación. Hace exactamente lo mismo, con las mismas reglas, y guarda tu
+    inscripción en el almacenamiento local de tu navegador.</p>
+    <p>Tratamiento por parte de Google: <a href="https://firebase.google.com/support/privacy">
+    Privacidad y seguridad en Firebase</a>.</p>
+  </section>
+
+  <section>
+    <h2>Suscripción de organizador</h2>
+    <p>Crear concursos es una función de pago, vendida como suscripción anual y facturada por
+    <strong>Google Play</strong>. Participar en un concurso es y seguirá siendo gratis, tanto en
+    Android como en iPhone. BoninyDev no ve, no recibe ni conserva ningún dato de pago: solo
+    sabemos, en tu dispositivo, si la suscripción está activa.</p>
+  </section>
+
+  <section>
     <h2>Menores</h2>
     <p>La aplicación no está dirigida a menores de 13 años y no les pide ninguna información.</p>
   </section>
@@ -395,7 +587,7 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
     <h2>Contacto</h2>
     <p>Dudas sobre esta política: <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
   </section>
-  <p class="maj">Última actualización: 9 de noviembre de 2026</p>
+  <p class="maj">Última actualización: 19 de noviembre de 2026</p>
 </div>
 
 <!-- ================= العربية ================= -->
@@ -404,14 +596,18 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
     <h2>في جملتين</h2>
     <p><strong>لا يجمع تطبيق Score Arc Sarbacane أي بيانات شخصية ولا يرسل شيئاً إلى
     BoninyDev.</strong> تبقى كل جلساتك وعتادك وإعداداتك على هاتفك.</p>
-    <p>هناك استثناءان فقط، وكلاهما من Google: شبكة إعلانات AdMob، و Google Play إذا اشتريت
-    النسخة بلا إعلانات.</p>
+    <p>هناك ثلاثة استثناءات. اثنان من Google: شبكة إعلانات AdMob، و Google Play إذا اشتريت
+    النسخة بلا إعلانات أو اشتراك المنظّم. والثالث هو <strong>وضع المسابقة</strong>: إذا
+    أنشأت مسابقة أو انضممت إلى واحدة — وفي هذه الحالة فقط — يُرسَل اسمك ورقم رخصتك إلى خادم.
+    التفاصيل أدناه.</p>
   </section>
 
   <section>
     <h2>ما الذي يحفظه التطبيق</h2>
     <p>تُحفظ جلسات الرمي والنتائج ومواضع الإصابات والعتاد والأهداف المخصّصة والإعدادات
-    <strong>في الذاكرة المحلية للتطبيق فقط</strong>، على جهازك. لا يوجد حساب ولا تسجيل ولا خادم.</p>
+    <strong>في الذاكرة المحلية للتطبيق فقط</strong>، على جهازك. لا يوجد حساب ولا تسجيل ولا
+    كلمة مرور. ولا يغادر شيء من ذلك إلى خادم — <strong>باستثناء نتائج مسابقة تختار المشاركة
+    فيها</strong>، كما هو موضّح أدناه.</p>
     <p>إلغاء تثبيت التطبيق يمحو هذه البيانات نهائياً. ومن الإعدادات ← البيانات ← نسخ احتياطي يمكنك
     تصدير نسخة إلى ملف يخصّك ولا نستلمه أبداً.</p>
   </section>
@@ -450,6 +646,46 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
   </section>
 
   <section>
+    <h2>وضع المسابقة</h2>
+    <p>لا يعنيك هذا القسم إلا إذا <strong>أنشأت مسابقة أو انضممت إلى واحدة</strong>. وما لم
+    تفعل، فإن التطبيق لا يتصل بأي خادم.</p>
+    <p><strong>هوية مجهولة.</strong> عند أول استخدام لوضع المسابقة، تُنشئ خدمة
+    Firebase Authentication لجهازك معرّفاً مجهولاً: بلا بريد إلكتروني ولا كلمة مرور ولا اسم.
+    وظيفته الوحيدة إثبات أنك أنت من يعدّل ورقة نتائجك، لا شخص آخر.</p>
+    <p><strong>ما الذي يُرسَل.</strong> عند التسجيل في مسابقة تُدخل اسمك الأول واسم العائلة
+    ورقم الرخصة والنادي والفئة. تُحفظ هذه البيانات، ثم نتائجك رمية بعد رمية، لدى
+    <strong>Google Firebase Firestore</strong> على خوادم في فرنسا (المنطقة
+    <em>europe-west9</em>، باريس).</p>
+    <p><strong>من يرى ماذا.</strong> يرى المنظّم بطاقتك كاملة: الاسم الأول واسم العائلة
+    والرخصة والنادي والفئة والنتائج — وهذا هو جوهر تنظيم المسابقة. أما بقية المشاركين، وكل
+    من يملك رمز المسابقة، فلا يرون سوى <strong>اسمك الأول والحرف الأول من اسم عائلتك وفئتك
+    ومجموعك</strong>. ولا يستطيع أحد قراءة أرقام الرخص سواك والمنظّم: ليس هذا وعداً، بل
+    قاعدة يطبّقها الخادم ويرفض بموجبها أي قراءة أخرى.</p>
+    <p><strong>إلى متى.</strong> يستطيع المنظّم حذف المسابقة وكل نتائجها في أي وقت من هاتفه.
+    وتُحذف تلقائياً المسابقات المغلقة منذ أكثر من ثلاثة أشهر.</p>
+    <p><strong>لماذا.</strong> تُستخدم هذه البيانات لتشغيل المسابقة التي اخترت التسجيل فيها
+    فحسب: بلا إعلانات ولا إحصاءات ولا بيع ولا ربط ببيانات أخرى. ولا يستعملها BoninyDev في
+    أي شيء آخر.</p>
+    <p><strong>الانسحاب.</strong> اطلب من المنظّم حذف تسجيلك، أو اكتب إلى
+    <a href="mailto:contact@boninydev.com">contact@boninydev.com</a> ذاكراً رمز المسابقة
+    واسمك.</p>
+    <p><strong>على iPhone.</strong> تتيح صفحة
+    <a href="concours/">boninytel-dot.github.io/SAS/concours/</a> المشاركة دون تثبيت أي
+    تطبيق. وهي تفعل الشيء نفسه تماماً وبالقواعد نفسها، وتحفظ تسجيلك في الذاكرة المحلية
+    لمتصفحك.</p>
+    <p>معالجة البيانات لدى Google: <a href="https://firebase.google.com/support/privacy">
+    الخصوصية والأمان في Firebase</a>.</p>
+  </section>
+
+  <section>
+    <h2>اشتراك المنظّم</h2>
+    <p>إنشاء المسابقات ميزة مدفوعة، باشتراك سنوي تتولّى <strong>Google Play</strong> تحصيله.
+    أما المشاركة في مسابقة فمجانية وتبقى كذلك، على Android و iPhone على حد سواء. ولا يرى
+    BoninyDev أي بيانات دفع ولا يستلمها ولا يحتفظ بها: نعرف فقط، على جهازك، ما إذا كان
+    الاشتراك فعّالاً.</p>
+  </section>
+
+  <section>
     <h2>الأطفال</h2>
     <p>التطبيق غير موجّه للأطفال دون 13 سنة ولا يطلب منهم أي معلومات.</p>
   </section>
@@ -465,7 +701,7 @@ footer{text-align:center;color:var(--secondary-text);font-size:.85rem;padding:0 
     <h2>التواصل</h2>
     <p>أسئلة حول هذه السياسة: <a href="mailto:contact@boninydev.com">contact@boninydev.com</a></p>
   </section>
-  <p class="maj">آخر تحديث: 9 نوفمبر 2026</p>
+  <p class="maj">آخر تحديث: 19 نوفمبر 2026</p>
 </div>
 
 </div>

@@ -1,0 +1,16 @@
+{
+  "name": "Concours — Score Arc Sarbacane",
+  "short_name": "Concours SAS",
+  "description": "Rejoindre un concours de tir a l'arc ou de sarbacane et marquer ses volees depuis son telephone.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#12161C",
+  "theme_color": "#12161C",
+  "icons": [
+    { "src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
