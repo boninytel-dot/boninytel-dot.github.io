@@ -142,6 +142,28 @@ function dateFR(ms){
   try{ return new Date(ms).toLocaleDateString("fr-FR"); }catch(e){ return ""; }
 }
 function distFR(d){ return String(d).replace(".", ","); }
+function heureFR(ms){
+  try{
+    return new Date(ms).toLocaleTimeString("fr-FR", {hour:"2-digit", minute:"2-digit"});
+  }catch(e){ return ""; }
+}
+
+/* Un concours d'essai : l'organisateur essaie le mode concours avant de
+   s'abonner, et le serveur fige les scores passe l'heure. Le participant
+   doit le savoir avant de s'inscrire, pas en se heurtant a un refus au
+   milieu de sa serie. */
+function essaiFini(c){
+  return !!(c && c.essai && c.finEssai && Date.now() >= c.finEssai);
+}
+function bandeauEssai(c){
+  if(!c || !c.essai) return "";
+  return '<div class="pose"><b>Concours d\u2019essai.</b> ' +
+    (essaiFini(c)
+      ? 'L\u2019heure est pass\u00e9e : les scores sont fig\u00e9s.'
+      : 'L\u2019organisateur essaie le mode concours. Vos vol\u00e9es ne ' +
+        'comptent plus apr\u00e8s ' + heureFR(c.finEssai) + '.') +
+    '</div>';
+}
 
 /* --------------------------------------------------------- Firestore REST
    Meme encodage que l'application : Firestore veut des valeurs typees. */
@@ -377,6 +399,7 @@ function ecranInscription(code, c){
       '<div class="s" style="margin-top:6px">' + distFR(c.format.d) + ' m · ' +
       c.format.t + ' cm · ' + c.format.v + ' volees de ' + c.format.n + '</div>' +
       '</div>' +
+      bandeauEssai(c) +
       '<div class="card"><h2>Votre inscription</h2>' +
       '<label for="pr">Prenom</label><input id="pr" value="' + esc(p.prenom || "") +
       '" autocomplete="given-name">' +
@@ -453,6 +476,7 @@ function ecranMarque(code, c){
       '<div style="font-family:var(--ui);font-size:30px;font-weight:700" id="tot">' +
       total + '</div></div></div>' +
 
+      bandeauEssai(c) +
       '<div class="card">' +
       '<h2>Volee ' + (s.vi + 1) + ' sur ' + s.volees.length + '</h2>' +
       '<div class="cases" id="cases"></div>' +
@@ -520,7 +544,9 @@ function ecranMarque(code, c){
       ecranMarque(code, c);
     }).catch(function(e){
       b.disabled = false; b.textContent = "Valider la volee";
-      toast("Envoi impossible : " + e.message);
+      toast(/permission|insufficient/i.test(e.message || "")
+        ? "Le concours n\u2019accepte plus de volee."
+        : "Envoi impossible : " + e.message);
     });
   };
   $("#raf").onclick = function(){ chargerClassement(code); };
