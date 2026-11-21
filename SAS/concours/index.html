@@ -314,7 +314,8 @@ function seanceNeuve(code, c, fiche){
     v.push(vol);
   }
   return {code:code, volees:v, vi:0, ai:0,
-          prenom:fiche.prenom, nom:fiche.nom, categorie:fiche.categorie};
+          prenom:fiche.prenom, nom:fiche.nom, categorie:fiche.categorie,
+          cible:fiche.cible || ""};
 }
 function totalSeance(s){
   var t = 0, tire = 0, dix = 0, x = 0;
@@ -327,6 +328,72 @@ function totalSeance(s){
     });
   });
   return {total:t, tire:tire, dix:dix, x:x};
+}
+
+/* Le total de chaque volee tiree, dans l'ordre. C'est ce que le temoin
+   valide : un total global ne se verifie pas. */
+function detailVolees(s){
+  var d = [];
+  s.volees.forEach(function(v){
+    var tire = v.some(function(x){ return x !== null; });
+    if(!tire) return;
+    var t = 0;
+    v.forEach(function(p){ if(p) t += p.s; });
+    d.push(t);
+  });
+  return d;
+}
+
+/* Les deux meilleures valeurs DISTINCTES du blason, et combien de
+   fleches les ont touchees : c'est ce qui departage deux archers a
+   egalite. On ne code ni 7 ni 10, on prend ce que le blason propose —
+   le clavier voyage avec le concours. */
+function comptesHauts(s, c){
+  var cl = clavierDe(c), vus = {}, vals = [];
+  cl.forEach(function(v){ if(!vus[v.s]){ vus[v.s] = 1; vals.push(v.s); } });
+  vals.sort(function(a, b){ return b - a; });
+  var h1 = vals[0] || 0, h2 = vals[1] || 0, n1 = 0, n2 = 0;
+  s.volees.forEach(function(v){
+    v.forEach(function(p){
+      if(!p || p.l === "M") return;
+      if(p.s === h1) n1++;
+      else if(p.s === h2) n2++;
+    });
+  });
+  return {h1:h1, n1:n1, h2:h2, n2:n2};
+}
+
+/* ------------------------------------------------------- le controle
+   Chaque volee envoyee reste « a valider » jusqu'a ce qu'un AUTRE
+   archer la confirme depuis son telephone. La validation porte sur le
+   total de la volee au moment ou elle est signee : si l'archer la
+   corrige ensuite, elle redevient a valider. */
+function cleValidation(archer, n){ return archer + "_" + n; }
+function volEstValidee(V, archer, n, t){
+  var v = V[cleValidation(archer, n)];
+  return !!(v && v.t === t);
+}
+function compteValide(V, x){
+  var d = x.detail || [], ok = 0;
+  d.forEach(function(t, i){ if(volEstValidee(V, x.__id, i+1, t)) ok++; });
+  return {ok:ok, sur:d.length};
+}
+function lireValidations(code){
+  return Nuage.lister("/concours/" + code + "/validations").then(function(L){
+    var V = {};
+    L.forEach(function(v){ V[v.__id] = v; });
+    return V;
+  }).catch(function(){ return {}; });
+}
+function validerVolees(code, archer, detail, numeros, moi){
+  return Promise.all(numeros.map(function(n){
+    return Nuage.ecrire("/concours/" + code + "/validations/" +
+                        cleValidation(archer, n), {
+      archer: archer, n: n, t: detail[n-1],
+      par: moi.uid, nom: moi.nom, cible: moi.cible,
+      quand: Date.now(), expire: peremption()
+    });
+  }));
 }
 
 /* ============================================================ les ecrans */
@@ -414,6 +481,11 @@ function ecranInscription(code, c){
           return '<option' + (x === p.categorie ? ' selected' : '') + '>' + esc(x) +
                  '</option>';
         }).join("") + '</select>' : '') +
+      '<label for="ci">Cible</label><input id="ci" value="' + esc(p.cible || "") +
+      '" placeholder="1, 2, 3A…" autocomplete="off">' +
+      '<div class="s" style="margin-top:6px">Le numero ou le nom de la cible ' +
+      'ou vous tirez. C’est ce qui permet aux archers de votre cible de ' +
+      'valider vos volees.</div>' +
       '<div class="s" style="margin-top:14px">L’organisateur voit votre nom, ' +
       'votre licence et votre club. Les autres participants ne voient que ' +
       'votre prenom, l’initiale de votre nom et votre total.</div>' +
@@ -423,14 +495,17 @@ function ecranInscription(code, c){
     var fiche = {
       prenom: $("#pr").value.trim(), nom: $("#no").value.trim(),
       licence: $("#li").value.trim(), club: $("#cb").value.trim(),
-      categorie: $("#ca") ? $("#ca").value : "", inscrit: Date.now(),
+      categorie: $("#ca") ? $("#ca").value : "",
+      cible: $("#ci").value.trim(), inscrit: Date.now(),
       expire: peremption()
     };
     if(!fiche.prenom || !fiche.nom){ toast("Prenom et nom sont demandes"); return; }
+    if(!fiche.cible){ toast("Indiquez votre cible"); return; }
     var b = $("#ok"); b.disabled = true; b.textContent = "Inscription…";
     var pub = {
       affichage: fiche.prenom + " " + fiche.nom.slice(0,1).toUpperCase() + ".",
-      categorie: fiche.categorie, total:0, volees:0, nb10:0, nbX:0,
+      categorie: fiche.categorie, cible: fiche.cible,
+      total:0, volees:0, detail:[], nb10:0, nbX:0, h1:0, n1:0, h2:0, n2:0,
       modifie:Date.now(), expire: peremption()
     };
     Nuage.connecter().then(function(uid){
@@ -440,7 +515,8 @@ function ecranInscription(code, c){
       ]).then(function(){
         var m = etat();
         m.profil = {prenom:fiche.prenom, nom:fiche.nom, licence:fiche.licence,
-                    club:fiche.club, categorie:fiche.categorie};
+                    club:fiche.club, categorie:fiche.categorie,
+                    cible:fiche.cible};
         m.inscrit = m.inscrit || {};
         m.inscrit[code] = seanceNeuve(code, c, fiche);
         garder(m);
@@ -493,6 +569,12 @@ function ecranMarque(code, c){
       '<button class="btn pri" id="env">Valider la volee</button>' +
       '</div>' +
 
+      '<div class="card"><h2>Controle</h2>' +
+      '<div class="s">Sur le papier, un autre archer vous a vu tirer. Ici, ' +
+      'chaque volee envoyee attend la confirmation d’un autre archer de ' +
+      'votre cible.</div>' +
+      '<button class="btn" id="ctl">Valider les volees des autres</button></div>' +
+
       '<div class="card"><h2>Classement</h2>' +
       '<div id="cls" class="s">Chargement…</div>' +
       '<button class="btn" id="raf">Actualiser</button></div>' +
@@ -537,7 +619,7 @@ function ecranMarque(code, c){
       return;
     }
     var b = $("#env"); b.disabled = true; b.textContent = "Envoi…";
-    envoyer(code, s).then(function(){
+    envoyer(code, s, c).then(function(){
       toast("Volee envoyee a l’organisateur");
       if(s.vi < s.volees.length - 1){ s.vi++; s.ai = 0; }
       rangerSeance(code, s);
@@ -549,41 +631,163 @@ function ecranMarque(code, c){
         : "Envoi impossible : " + e.message);
     });
   };
+  $("#ctl").onclick = function(){ ecranControle(code, c); };
   $("#raf").onclick = function(){ chargerClassement(code); };
   chargerClassement(code);
 }
 
-function envoyer(code, s){
-  var t = totalSeance(s), n = s.volees[0].length;
+function envoyer(code, s, c){
+  var t = totalSeance(s), n = s.volees[0].length, k = comptesHauts(s, c);
   var pub = {
     affichage: s.prenom + " " + s.nom.slice(0,1).toUpperCase() + ".",
-    categorie: s.categorie || "",
+    categorie: s.categorie || "", cible: s.cible || "",
     total: t.total, volees: n ? Math.ceil(t.tire / n) : 0,
-    nb10: t.dix, nbX: t.x, modifie: Date.now(), expire: peremption()
+    detail: detailVolees(s),
+    nb10: t.dix, nbX: t.x,
+    h1: k.h1, n1: k.n1, h2: k.h2, n2: k.n2,
+    modifie: Date.now(), expire: peremption()
   };
   return Nuage.connecter().then(function(uid){
     return Nuage.ecrire("/concours/" + code + "/classement/" + uid, pub);
   });
 }
 
+/* ---- l'ecran du temoin ----
+   Les archers de sa propre cible d'abord : c'est eux qu'on a vus tirer.
+   Valider un archer d'une autre cible reste possible — il faut bien que
+   celui qui tire seul puisse l'etre — mais c'est dit, et c'est inscrit
+   dans la validation, que l'organisateur relira. */
+function ecranControle(code, c){
+  var s = seanceDe(code);
+  vue('<div class="card"><div class="t">Controler les scores</div>' +
+      '<div class="s">' + esc(c.nom) + '</div></div>' +
+      '<div class="card" id="co"><div class="s">Chargement…</div></div>' +
+      '<div class="card"><button class="btn" id="ret">‹ Revenir a ma feuille</button>' +
+      '</div>' + pied());
+  $("#ret").onclick = function(){ ecranMarque(code, c); };
+  charger();
+
+  function charger(){
+    var z = $("#co");
+    z.innerHTML = '<div class="s">Chargement…</div>';
+    Promise.all([Nuage.lister("/concours/" + code + "/classement"),
+                 lireValidations(code),
+                 Nuage.connecter()])
+      .then(function(r){
+        var L = r[0], V = r[1], moiId = r[2];
+        var moi = null;
+        L.forEach(function(x){ if(x.__id === moiId) moi = x; });
+        var maCible = moi ? (moi.cible || "") : (s ? s.cible || "" : "");
+        var autres = L.filter(function(x){ return x.__id !== moiId; });
+        autres.sort(function(a, b){
+          var sa = (a.cible === maCible) ? 0 : 1, sb = (b.cible === maCible) ? 0 : 1;
+          if(sa !== sb) return sa - sb;
+          return String(a.affichage||"").localeCompare(String(b.affichage||""));
+        });
+
+        var h = '<div class="s" style="margin-bottom:10px">Vous etes sur la ' +
+                'cible <b>' + esc(maCible || "—") + '</b>. Validez ce que vous ' +
+                'avez vu.</div>';
+        if(!autres.length){
+          h += '<div class="s">Personne d’autre n’est inscrit pour l’instant.</div>';
+        }
+        autres.forEach(function(x){
+          var det = x.detail || [], att = [];
+          det.forEach(function(t, i){
+            if(!volEstValidee(V, x.__id, i+1, t)) att.push(i+1);
+          });
+          var cpt = compteValide(V, x);
+          var meme = (x.cible === maCible && maCible);
+          h += '<div style="border:1px solid var(--line);border-radius:12px;' +
+               'padding:10px;margin-bottom:10px' +
+               (meme ? ';border-color:var(--accent)' : '') + '">' +
+               '<div class="t">' + esc(x.affichage || "—") + '</div>' +
+               '<div class="s">Cible ' + esc(x.cible || "—") +
+               (meme ? ' · votre cible' : ' · une autre cible') +
+               ' · ' + cpt.ok + '/' + cpt.sur + ' validees</div>';
+          if(!det.length){
+            h += '<div class="s">Aucune volee envoyee.</div>';
+          } else if(!att.length){
+            h += '<div class="s" style="color:var(--green)">Tout est valide.</div>';
+          } else {
+            h += '<div class="ligne" style="flex-wrap:wrap;margin-top:8px">' +
+              att.map(function(n){
+                return '<button class="btn" style="flex:0 0 auto" data-un="' +
+                       esc(x.__id) + '" data-n="' + n + '">Volee ' + n + ' : ' +
+                       det[n-1] + '</button>';
+              }).join("") + '</div>' +
+              '<button class="btn pri" data-tout="' + esc(x.__id) + '">Valider les ' +
+              att.length + ' volee' + (att.length > 1 ? 's' : '') + '</button>';
+          }
+          h += '</div>';
+        });
+        z.innerHTML = h;
+
+        function valider(id, numeros){
+          var x = null;
+          L.forEach(function(y){ if(y.__id === id) x = y; });
+          if(!x || !numeros.length) return;
+          if(x.cible !== maCible &&
+             !confirm("Cet archer n’est pas sur votre cible. Validez-vous quand " +
+                      "meme ? Votre nom et votre cible seront inscrits a cote " +
+                      "de la validation.")) return;
+          validerVolees(code, id, x.detail || [], numeros,
+                        {uid:moiId, nom:(moi ? moi.affichage : "—"), cible:maCible})
+            .then(function(){ toast("Valide"); charger(); })
+            .catch(function(e){
+              toast(/permission|insufficient/i.test(e.message || "")
+                ? "Le concours n’accepte plus de validation."
+                : "Impossible : " + e.message);
+            });
+        }
+        Array.prototype.forEach.call(z.querySelectorAll("[data-un]"), function(b){
+          b.onclick = function(){
+            valider(b.getAttribute("data-un"), [+b.getAttribute("data-n")]);
+          };
+        });
+        Array.prototype.forEach.call(z.querySelectorAll("[data-tout]"), function(b){
+          b.onclick = function(){
+            var id = b.getAttribute("data-tout"), x = null;
+            L.forEach(function(y){ if(y.__id === id) x = y; });
+            if(!x) return;
+            var att = [];
+            (x.detail || []).forEach(function(t, i){
+              if(!volEstValidee(V, id, i+1, t)) att.push(i+1);
+            });
+            valider(id, att);
+          };
+        });
+      })
+      .catch(function(e){
+        z.innerHTML = '<div class="s">Controle indisponible : ' + esc(e.message) +
+                      '</div>';
+      });
+  }
+}
+
 function chargerClassement(code){
   var z = $("#cls");
   if(!z) return;
   z.textContent = "Chargement…";
-  Nuage.lister("/concours/" + code + "/classement").then(function(L){
+  Promise.all([Nuage.lister("/concours/" + code + "/classement"),
+               lireValidations(code)]).then(function(r){
+    var L = r[0], V = r[1];
     if(!z.isConnected) return;
     if(!L.length){ z.textContent = "Personne n’a encore envoye de volee."; return; }
     L.sort(function(a, b){
-      return (b.total - a.total) || (b.nbX - a.nbX) || (b.nb10 - a.nb10);
+      return (b.total - a.total) ||
+             ((b.n1 || 0) - (a.n1 || 0)) || ((b.n2 || 0) - (a.n2 || 0)) ||
+             (b.nbX - a.nbX) || (b.nb10 - a.nb10);
     });
     var moi = etat().uid;
-    z.innerHTML = '<table><tr><th>#</th><th>Archer</th><th>Categorie</th>' +
-      '<th class="n">Volees</th><th class="n">Total</th></tr>' +
+    z.innerHTML = '<table><tr><th>#</th><th>Archer</th><th>Cible</th>' +
+      '<th class="n">Total</th><th class="n">Validees</th></tr>' +
       L.map(function(x, i){
+        var cpt = compteValide(V, x);
         return '<tr' + (x.__id === moi ? ' class="moi"' : '') + '><td>' + (i+1) +
-          '</td><td>' + esc(x.affichage) + '</td><td>' + esc(x.categorie || "") +
-          '</td><td class="n">' + (x.volees || 0) + '</td><td class="n">' +
-          (x.total || 0) + '</td></tr>';
+          '</td><td>' + esc(x.affichage) + '</td><td>' + esc(x.cible || "—") +
+          '</td><td class="n">' + (x.total || 0) + '</td><td class="n">' +
+          cpt.ok + '/' + cpt.sur + '</td></tr>';
       }).join("") + '</table>';
   }).catch(function(e){
     if(z.isConnected) z.textContent = "Classement indisponible : " + e.message;

@@ -3,7 +3,7 @@
    meme quand le reseau du gymnase tousse. Les appels a Firestore, eux, ne
    sont jamais mis en cache : un classement perime serait pire que pas de
    classement du tout. */
-var CACHE = "sas-concours-2";
+var CACHE = "sas-concours-3";
 var FICHIERS = ["./", "./index.html", "./manifest.webmanifest", "./icone-512.png"];
 
 self.addEventListener("install", function(e){
